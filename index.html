@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ml" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>ഗ്രാമശ്രീകൾ - STD 7 MALAYALAM UNIT 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2E7D32;
+  --primary-light: #4CAF50;
+  --accent: #E65100;
+  --gold: #F57F17;
+  --blue: #0277BD;
+  --purple: #6A1B9A;
+  --teal: #00796B;
+  --bg-gradient: linear-gradient(135deg, #F1F8E9 0%, #E8F5E9 40%, #FFFDE7 100%);
+  --card-bg: rgba(255, 255, 255, 0.98);
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --radius: 18px;
+}
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
+body {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: #212121;
+  font-family: 'Anek Malayalam', 'Outfit', sans-serif;
+  direction: ltr;
+  text-align: left;
+}
+.en { font-family: 'Outfit', sans-serif; }
+.ml { font-family: 'Anek Malayalam', sans-serif; }
+#app { max-width: 1080px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; }
+
+header {
+  background: var(--card-bg);
+  padding: 14px 22px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+  border: 2px solid #C8E6C9;
+}
+.logo-area { display: flex; align-items: center; gap: 14px; cursor: pointer; }
+.logo-icon { font-size: 2.2rem; }
+.logo-title { font-size: 1.35rem; color: var(--primary); font-weight: 800; line-height: 1.2; }
+.logo-sub { font-size: 0.9rem; color: var(--blue); font-weight: 700; }
+.tag-badge { font-size: 0.78rem; background: #FFD54F; color: #37474F; padding: 3px 10px; border-radius: 12px; font-weight: 800; display: inline-block; margin-top: 3px; }
+
+.stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #FFFDE7;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 2px solid #FBC02D;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.controls { display: flex; gap: 8px; }
+.icon-btn {
+  background: #FFF;
+  border: 2px solid #CFD8DC;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s;
+}
+.icon-btn:hover { transform: scale(1.06); border-color: var(--primary-light); }
+
+.progress-container { width: 100%; background: rgba(255,255,255,0.8); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 16px; border: 1px solid #C8E6C9; }
+.progress-bar { height: 100%; width: 5%; background: linear-gradient(90deg, #4CAF50, #8BC34A); transition: width 0.4s ease; }
+
+.screen { display: none; flex-direction: column; align-items: center; width: 100%; flex: 1; animation: fadeIn 0.3s ease-in-out; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.home-card {
+  background: var(--card-bg);
+  border-radius: 26px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 860px;
+  margin: auto;
+  border: 4px solid #FFF;
+}
+.main-title { color: var(--primary); font-size: 1.95rem; font-weight: 800; margin-bottom: 6px; }
+.sub-title { color: var(--accent); font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+.author-tag { background: #E8F5E9; color: #1B5E20; display: inline-block; padding: 6px 20px; border-radius: 20px; font-size: 0.95rem; margin-bottom: 24px; font-weight: 700; border: 1px solid #A5D6A7; }
+
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; width: 100%; }
+.btn-menu {
+  padding: 16px 16px;
+  border: none;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.18);
+  transition: all 0.2s;
+}
+.btn-menu:hover { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0,0,0,0.2); }
+.btn-menu:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+
+.b1 { background: linear-gradient(135deg, #1B5E20, #2E7D32); }
+.b2 { background: linear-gradient(135deg, #0277BD, #01579B); }
+.b3 { background: linear-gradient(135deg, #D84315, #BF360C); }
+.b4 { background: linear-gradient(135deg, #6A1B9A, #4A148C); }
+.b5 { background: linear-gradient(135deg, #00695C, #004D40); }
+.b6 { background: linear-gradient(135deg, #F57F17, #E65100); }
+.b7 { background: linear-gradient(135deg, #C2185B, #880E4F); }
+.b8 { background: linear-gradient(135deg, #455A64, #263238); }
+.b9 { background: linear-gradient(135deg, #303F9F, #1A237E); }
+.b10{ background: linear-gradient(135deg, #C62828, #B71C1C); }
+
+.section-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background: white;
+  padding: 12px 22px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  gap: 10px;
+  border-left: 6px solid var(--primary);
+}
+.section-title { font-size: 1.35rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.back-btn { background: #37474F; color: white; border: none; padding: 8px 22px; border-radius: 20px; font-weight: 700; cursor: pointer; }
+.back-btn:hover { background: #212121; }
+
+.content-box {
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto 20px;
+  border: 3px solid #FFF;
+}
+
+.poem-stanza {
+  background: #F1F8E9;
+  border-left: 6px solid #4CAF50;
+  padding: 18px 20px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.poem-text { font-size: 1.25rem; line-height: 2.2; font-weight: 600; color: #1B5E20; }
+.mini-play {
+  background: var(--primary);
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vocab-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; width: 100%; }
+.vocab-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  border: 2px solid #E0E0E0;
+  transition: all 0.25s;
+}
+.vocab-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+.vocab-word { font-size: 1.45rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; border-bottom: 2px dashed #C8E6C9; padding-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+.vocab-row { font-size: 1.05rem; line-height: 1.7; margin-bottom: 6px; color: #424242; }
+.vocab-row b { color: #1B5E20; }
+
+.activity-block {
+  background: #FFFDE7;
+  border: 2px solid #FFF59D;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.activity-heading { color: #D84315; font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #FFE082; padding-bottom: 6px; }
+.activity-desc { font-size: 1.12rem; line-height: 1.8; margin-bottom: 14px; font-weight: 500; }
+.reveal-model-btn {
+  background: var(--purple);
+  color: white;
+  border: none;
+  padding: 9px 24px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 8px;
+}
+.model-answer-box {
+  background: #F3E5F5;
+  border: 2px dashed #BA68C8;
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: 14px;
+  font-size: 1.15rem;
+  line-height: 2;
+  display: none;
+}
+
+/* Games */
+.game-box {
+  background: white;
+  border-radius: 25px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.game-header {
+  font-size: 1.25rem;
+  color: #1B5E20;
+  background: #E8F5E9;
+  padding: 10px 28px;
+  border-radius: 25px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.game-q-card {
+  background: #F9FBE7;
+  border: 2px solid #DCE775;
+  border-radius: 18px;
+  padding: 20px;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 22px;
+  line-height: 1.8;
+}
+.options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; width: 100%; }
+.option-btn {
+  background: #FFF;
+  border: 3px solid #90CAF9;
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #0D47A1;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #64B5F6;
+  text-align: center;
+  transition: all 0.2s;
+  line-height: 1.5;
+}
+.option-btn:hover { background: #E3F2FD; }
+.option-btn.correct { background: #C8E6C9 !important; border-color: #4CAF50 !important; color: #1B5E20 !important; box-shadow: 0 4px 0 #388E3C !important; }
+.option-btn.wrong { background: #FFCDD2 !important; border-color: #F44336 !important; color: #B71C1C !important; box-shadow: 0 4px 0 #D32F2F !important; }
+
+/* Match Columns */
+.match-container { display: flex; justify-content: space-between; width: 100%; gap: 18px; margin-bottom: 18px; }
+.match-column { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.match-item {
+  background: white;
+  border: 3px solid #CFD8DC;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.5;
+}
+.match-item:hover { border-color: var(--blue); background: #E1F5FE; }
+.match-item.selected { border-color: #FFB300; background: #FFF8E1; }
+.match-item.matched { border-color: #4CAF50; background: #E8F5E9; opacity: 0.6; pointer-events: none; }
+
+/* Question Paper & Print */
+.qp-card { background: white; border: 2px solid #CFD8DC; border-radius: 18px; padding: 26px; margin-bottom: 20px; }
+.qp-title { text-align: center; color: var(--primary); font-size: 1.55rem; font-weight: 800; margin-bottom: 4px; }
+.qp-meta { text-align: center; font-size: 0.95rem; color: #616161; font-weight: 600; margin-bottom: 20px; border-bottom: 2px dashed #B0BEC5; padding-bottom: 12px; }
+.qp-section-title { font-weight: 800; color: #C2185B; font-size: 1.2rem; margin: 18px 0 12px; background: #FCE4EC; padding: 8px 16px; border-radius: 10px; }
+.qp-q-box { margin-bottom: 14px; padding: 12px 16px; background: #F9FBE7; border-left: 4px solid #AFB42B; border-radius: 8px; font-size: 1.15rem; line-height: 1.8; }
+.qp-action-bar { display: flex; gap: 14px; justify-content: center; margin-bottom: 22px; flex-wrap: wrap; }
+.print-btn {
+  background: linear-gradient(135deg, #0288D1, #01579B);
+  color: white;
+  border: none;
+  padding: 10px 26px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Quiz Container */
+.quiz-q { background: white; border-radius: 16px; padding: 20px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid var(--blue); }
+.quiz-q .qtext { font-size: 1.25rem; font-weight: 700; margin-bottom: 14px; line-height: 1.7; }
+.quiz-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.quiz-opt { background: #F5F5F5; border: 2px solid #E0E0E0; border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; font-size: 1.1rem; font-weight: 600; }
+.quiz-opt.picked { border-color: var(--blue); background: #E1F5FE; }
+.quiz-opt.correct-ans { border-color: #4CAF50; background: #C8E6C9; color: #1B5E20; }
+.quiz-opt.wrong-ans { border-color: #F44336; background: #FFCDD2; color: #B71C1C; }
+.submit-quiz-btn { background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; border: none; padding: 14px 44px; border-radius: 25px; font-size: 1.18rem; font-weight: 700; cursor: pointer; margin-top: 10px; }
+.quiz-score-box { background: #FFF9C4; border: 2px solid #FBC02D; border-radius: 18px; padding: 18px; text-align: center; font-size: 1.35rem; font-weight: 800; margin-bottom: 20px; }
+
+table.custom-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+.custom-table th { background: var(--teal); color: white; padding: 14px; font-size: 1.1rem; text-align: left; }
+.custom-table td { padding: 12px 14px; border-bottom: 1px solid #EEEEEE; font-size: 1.12rem; }
+.custom-table tr:nth-child(even) { background: #FAFAFA; }
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.reward-card { background: white; border-radius: 28px; padding: 32px; text-align: center; max-width: 480px; width: 100%; border: 5px solid #FFD54F; }
+.reward-icon { font-size: 4.2rem; margin-bottom: 10px; }
+.reward-title { color: #2E7D32; font-size: 1.85rem; font-weight: 800; margin-bottom: 6px; }
+
+@media (max-width: 700px) {
+  .main-title { font-size: 1.5rem; }
+  .options-grid { grid-template-columns: 1fr; }
+  .quiz-opts { grid-template-columns: 1fr; }
+  .match-container { flex-direction: column; }
+  .poem-text { font-size: 1.12rem; }
+}
+
+@media print {
+  body { background: white; color: black; }
+  #app > header, .progress-container, .back-btn, .qp-action-bar, .reveal-model-btn, .icon-btn { display: none !important; }
+  .screen { display: none !important; }
+  #modelQPScreen { display: block !important; }
+  .content-box, .qp-card { box-shadow: none; border: 1px solid #000; width: 100%; max-width: 100%; padding: 10px; }
+  .model-answer-box { display: block !important; border: 1px solid #555; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo-area" onclick="showScreen('homeScreen')">
+      <div class="logo-icon">🌾</div>
+      <div>
+        <h1 class="logo-title ml">ഗ്രാമശ്രീകൾ</h1>
+        <div class="logo-sub en">STD 7 · MALAYALAM · AT · UNIT 1 · LESSON 1</div>
+        <span class="tag-badge ml">അടിസ്ഥാനപാഠാവലി - കാവ്യപഠനം</span>
+      </div>
+    </div>
+    <div class="stats-bar en">
+      <div>⭐ <span id="valScore">0</span></div>
+      <div>❤️ <span id="valLives">3</span></div>
+      <div>🏆 <span id="valStars">0</span></div>
+    </div>
+    <div class="controls">
+      <button class="icon-btn" id="btnAudioToggle" onclick="toggleAudio()" title="Sound Toggle">🔊</button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+      <button class="icon-btn" onclick="showScreen('homeScreen')" title="Home">🏠</button>
+    </div>
+  </header>
+
+  <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- Home Screen -->
+  <div id="homeScreen" class="screen active">
+    <div class="home-card">
+      <h1 class="main-title ml">ഗ്രാമശ്രീകൾ</h1>
+      <h2 class="sub-title ml">കടത്തനാട്ട് മാധവി അമ്മ · അടിസ്ഥാനപാഠാവലി</h2>
+      <div class="author-tag ml">Prepared by: Smart Vidhya</div>
+      
+      <div class="menu-grid">
+        <button class="btn-menu b1" onclick="showScreen('readingScreen')">📖 Recite & Listen (കവിതാപാരായണം)</button>
+        <button class="btn-menu b2" onclick="showScreen('vocabMatrixScreen')">📚 കാർഷിക പദാവലി & പര്യായങ്ങൾ</button>
+        <button class="btn-menu b6" onclick="showScreen('activitiesScreen')">📝 പാഠപുസ്തക പ്രവർത്തനങ്ങൾ & ചിന്തകൾ</button>
+        <button class="btn-menu b3" onclick="showScreen('gamesMenuScreen')">🎮 7-ാം ക്ലാസ് ലേണിംഗ് ഗെയിമുകൾ (6)</button>
+        <button class="btn-menu b4" onclick="showScreen('quizScreen')">❓ മൂല്യനിർണ്ണയ ക്വിസ് (12 ചോദ്യങ്ങൾ)</button>
+        <button class="btn-menu b10" onclick="showScreen('modelQPScreen')">📋 മാതൃകാ ചോദ്യപേപ്പർ (30 Marks)</button>
+        <button class="btn-menu b7" onclick="showScreen('discourseScreen')">✍️ സമഗ്ര ആസ്വാദനക്കുറിപ്പ്</button>
+        <button class="btn-menu b5" onclick="showScreen('authorScreen')">👤 കടത്തനാട്ട് മാധവി അമ്മ</button>
+        <button class="btn-menu b9" onclick="showScreen('extraPoemScreen')">🎵 താരതമ്യ കവിത (വൈലോപ്പിള്ളി)</button>
+        <button class="btn-menu b8" onclick="showScreen('instructionsScreen')">ℹ️ അധ്യാപക സഹായി</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reading Screen -->
+  <div id="readingScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">📖 Recite & Listen (കവിത ഈണത്തിൽ ചൊല്ലാം)</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box">
+      <div style="background:#E8F5E9; border:2px solid #81C784; border-radius:18px; padding:16px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h3 class="ml" style="color:var(--primary); font-size:1.15rem;">വയലേലകളുടെ താളവും നാടൻ കാവ്യഭംഗിയും കേൾക്കാം</h3>
+          <p class="ml" style="font-size:0.95rem; color:#555;">വരികൾ കേട്ട് കർഷകസ്ത്രീകളുടെ കരവിരുതും പ്രഭാതഭംഗിയും ആസ്വദിക്കുക</p>
+        </div>
+        <button class="btn-menu b1 ml" style="padding:10px 24px; border-radius:25px;" onclick="readAllPoem()">🔊 മുഴുവൻ കവിത കേൾക്കുക</button>
+      </div>
+      <div id="poemContainer"></div>
+    </div>
+  </div>
+
+  <!-- Vocab Matrix -->
+  <div id="vocabMatrixScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">📚 കാർഷിക പദാവലി, പര്യായങ്ങൾ & വ്യാകരണ വിശകലനം</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box">
+      <p class="ml" style="margin-bottom:18px; font-weight:600; color:#555;">ഏഴാം ക്ലാസിലെ കവിതാപഠനത്തിന് ആവശ്യമായ കാർഷിക പദങ്ങളും പ്രയോഗങ്ങളും:</p>
+      <div class="vocab-cards-grid" id="vocabMatrixGrid"></div>
+    </div>
+  </div>
+
+  <!-- Activities Screen -->
+  <div id="activitiesScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">📝 പാഠപുസ്തക വിശകലനങ്ങൾ & ഉത്തരസൂചിക</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box" id="activitiesContainer"></div>
+  </div>
+
+  <!-- Games Menu Screen (Std 7) -->
+  <div id="gamesMenuScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">🎮 7-ാം ക്ലാസ് ലേണിംഗ് ഗെയിമുകൾ</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="menu-grid" style="max-width:760px; margin:20px auto;">
+      <button class="btn-menu b1" onclick="launchGame(1)">💎 കാവ്യപദാവലീ വെല്ലുവിളി</button>
+      <button class="btn-menu b2" onclick="launchGame(2)">🔗 കാവ്യബിംബങ്ങൾ യോജിപ്പിക്കൽ</button>
+      <button class="btn-menu b3" onclick="launchGame(3)">🔄 പര്യായ-വിപരീത വിചാരം</button>
+      <button class="btn-menu b4" onclick="launchGame(4)">🧩 വരികളുടെ അന്വയക്രമം (Syntax Ordering)</button>
+      <button class="btn-menu b5" onclick="launchGame(5)">🎯 കാവ്യസന്ദർഭ പ്രശ്നോത്തരി</button>
+      <button class="btn-menu b9" onclick="launchGame(6)">✨ പ്രയോഗഭംഗിയും കാവ്യാലങ്കാരങ്ങളും</button>
+    </div>
+  </div>
+
+  <!-- Game 1 -->
+  <div id="game1Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">💎 കാവ്യപദാവലീ വെല്ലുവിളി (Poetic Vocabulary)</div>
+    <div class="game-q-card ml" id="g1QuestionCard">ചോദ്യം...</div>
+    <div class="options-grid" id="g1OptionsGrid"></div>
+  </div></div>
+
+  <!-- Game 2 -->
+  <div id="game2Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">🔗 കാവ്യബിംബങ്ങളും അർത്ഥതലങ്ങളും യോജിപ്പിക്കുക</div>
+    <div class="match-container">
+      <div class="match-column" id="g2ColA"></div>
+      <div class="match-column" id="g2ColB"></div>
+    </div>
+  </div></div>
+
+  <!-- Game 3 -->
+  <div id="game3Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">🔄 പര്യായ-വിപരീത വിചാരം</div>
+    <div class="game-q-card ml" id="g3QuestionCard">ചോദ്യം...</div>
+    <div class="options-grid" id="g3OptionsGrid"></div>
+  </div></div>
+
+  <!-- Game 4 -->
+  <div id="game4Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">🧩 വരികളുടെ അന്വയക്രമം (Syntax Ordering)</div>
+    <div class="game-q-card ml" id="g4QuestionCard">വരികൾ ശരിയായ ക്രമത്തിൽ കണ്ടെത്തുക</div>
+    <div class="options-grid" id="g4OptionsGrid" style="grid-template-columns:1fr;"></div>
+  </div></div>
+
+  <!-- Game 5 -->
+  <div id="game5Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">🎯 കാവ്യസന്ദർഭ പ്രശ്നോത്തരി</div>
+    <div class="game-q-card ml" id="g5QuestionCard">സന്ദർഭ ചോദ്യം...</div>
+    <div class="options-grid" id="g5OptionsGrid"></div>
+  </div></div>
+
+  <!-- Game 6 -->
+  <div id="game6Screen" class="screen"><div class="game-box">
+    <div class="game-header ml">✨ പ്രയോഗഭംഗിയും കാവ്യാലങ്കാരങ്ങളും</div>
+    <div class="game-q-card ml" id="g6QuestionCard">പ്രയോഗം...</div>
+    <div class="options-grid" id="g6OptionsGrid"></div>
+  </div></div>
+
+  <!-- Quiz Screen -->
+  <div id="quizScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">❓ സമഗ്ര മൂല്യനിർണ്ണയ ക്വിസ് (12 Questions)</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box">
+      <div id="quizScoreBox" style="display:none;" class="quiz-score-box ml"></div>
+      <div id="quizContainer"></div>
+      <div style="text-align:center;"><button class="submit-quiz-btn ml" onclick="submitQuiz()">✅ ഉത്തരങ്ങൾ സമർപ്പിക്കാം (Submit)</button></div>
+    </div>
+  </div>
+
+  <!-- Model Question Paper Screen -->
+  <div id="modelQPScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">📋 മാതൃകാ പരീക്ഷാ ചോദ്യപേപ്പർ & Worksheet</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box">
+      <div class="qp-action-bar">
+        <button class="print-btn ml" onclick="printQuestionPaper()">🖨️ Print / Save as PDF</button>
+        <button class="print-btn ml" style="background:linear-gradient(135deg,#6A1B9A,#4A148C);" onclick="downloadTextQP()">📥 Download Worksheet (Text/Doc)</button>
+      </div>
+      <div id="modelQPContent" class="qp-card"></div>
+    </div>
+  </div>
+
+  <!-- Discourses Screen -->
+  <div id="discourseScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">✍️ സമഗ്ര ആസ്വാദനക്കുറിപ്പ് & കാവ്യവിചാരം</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box" id="discourseContainer"></div>
+  </div>
+
+  <!-- Author Screen -->
+  <div id="authorScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">👤 കടത്തനാട്ട് മാധവി അമ്മ (1909 - 1999)</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box" id="authorContainer"></div>
+  </div>
+
+  <!-- Extra Poem Screen -->
+  <div id="extraPoemScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">🎵 താരതമ്യ കവിത: വൈലോപ്പിള്ളി ശ്രീധരമേനോൻ</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box" id="extraPoemContainer"></div>
+  </div>
+
+  <!-- Instructions Screen -->
+  <div id="instructionsScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title ml">ℹ️ അധ്യാപക സഹായി</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box">
+      <div style="background:#F5F5F5; padding:22px; border-radius:16px; line-height:2; font-size:1.15rem;" class="ml">
+        <h3 style="color:var(--primary); margin-bottom:12px;">ഗ്രാമശ്രീകൾ - പഠന ലക്ഷ്യങ്ങൾ:</h3>
+        <ul style="padding-left:22px;">
+          <li>കർഷകസ്ത്രീകളെ നാടിന്റെ ഐശ്വര്യമായ 'ഗ്രാമശ്രീ'കളായി കവി ആദരിക്കുന്ന ഭാവതലത്തിന്റെ ആസ്വാദനം.</li>
+          <li>പ്രഭാതവർണ്ണന, കാർഷിക സംസ്കാരം, ഞാറുനടീൽ എന്നിവയിലെ കാവ്യബിംബങ്ങൾ കണ്ടെത്തൽ.</li>
+          <li>കവിതയിലെ പ്രയോഗഭംഗിയും രൂപകങ്ങളും വിശകലനം ചെയ്ത് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കൽ.</li>
+          <li>30 മാർക്കിന്റെ പരീക്ഷാ ചോദ്യപേപ്പർ പരിശീലനം.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rewardModal">
+  <div class="reward-card">
+    <div class="reward-icon">🌾</div>
+    <h2 class="reward-title ml">അഭിനന്ദനങ്ങൾ!</h2>
+    <p class="ml" style="font-size:1.15rem; color:#555; margin-bottom:20px;">നിങ്ങൾ കവിതാ പാഠഭാഗം ഉന്നത നിലവാരത്തിൽ പൂർത്തിയാക്കി!</p>
+    <button class="btn-menu b1 ml" style="margin:0 auto;" onclick="closeRewardModal()">തുടരുക (Continue)</button>
+  </div>
+</div>
+
+<script>
+let state = {
+  score: 0, lives: 3, stars: 0,
+  audioEnabled: true,
+  activeGame: null, currentGameIndex: 0, gameQueue: [],
+  quizSubmitted: false
+};
+
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playTone(freq, type, duration, delay=0) {
+  if (!state.audioEnabled) return;
+  initAudio();
+  setTimeout(() => {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch(e) {}
+  }, delay * 1000);
+}
+
+function playSound(type) {
+  if (!state.audioEnabled) return;
+  initAudio();
+  if (type === 'correct') {
+    playTone(523.25, 'sine', 0.2, 0);
+    playTone(659.25, 'sine', 0.2, 0.1);
+    playTone(783.99, 'sine', 0.3, 0.2);
+  } else if (type === 'wrong') {
+    playTone(280, 'sawtooth', 0.2, 0);
+    playTone(180, 'sawtooth', 0.3, 0.15);
+  } else if (type === 'click') {
+    playTone(480, 'triangle', 0.08, 0);
+  } else if (type === 'fanfare') {
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => playTone(f, 'sine', 0.35, i * 0.12));
+  }
+}
+
+let cachedMlVoices = [];
+function refreshMlVoices() {
+  if ('speechSynthesis' in window) cachedMlVoices = window.speechSynthesis.getVoices();
+}
+if ('speechSynthesis' in window) {
+  refreshMlVoices();
+  window.speechSynthesis.onvoiceschanged = refreshMlVoices;
+}
+
+function getMalayalamVoice() {
+  const voices = cachedMlVoices.length ? cachedMlVoices : (('speechSynthesis' in window) ? window.speechSynthesis.getVoices() : []);
+  if (!voices.length) return null;
+  return voices.find(v => v.lang && v.lang.toLowerCase() === 'ml-in')
+    || voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ml') && v.localService)
+    || voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ml'))
+    || voices.find(v => v.name && v.name.toLowerCase().includes('malayalam'))
+    || null;
+}
+
+// Splits long Malayalam text (e.g. whole poem stanzas) into smaller, natural,
+// punctuation-based chunks. Many speech engines slur, skip, or mispronounce
+// words when given one very long sentence; shorter chunks read far more
+// clearly and accurately while keeping natural pauses.
+function splitIntoSpeechChunks(text) {
+  const rawParts = text.split(/(?<=[,;!?॥।])\s*/).filter(p => p.trim());
+  const MAX_LEN = 80;
+  const merged = [];
+  let buffer = '';
+  rawParts.forEach(p => {
+    const candidate = (buffer ? buffer + ' ' : '') + p;
+    if (candidate.trim().length <= MAX_LEN) {
+      buffer = candidate;
+    } else {
+      if (buffer.trim()) merged.push(buffer.trim());
+      buffer = p;
+    }
+  });
+  if (buffer.trim()) merged.push(buffer.trim());
+  return merged.length ? merged : [text];
+}
+
+function speakMalayalam(text, onend) {
+  if (!state.audioEnabled) return;
+  if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
+
+  window.speechSynthesis.cancel();
+  const mlVoice = getMalayalamVoice();
+  const chunks = splitIntoSpeechChunks(text);
+  let idx = 0;
+  let watchdogTimer = null;
+
+  function clearWatchdog() {
+    if (watchdogTimer) { clearInterval(watchdogTimer); watchdogTimer = null; }
+  }
+
+  function speakChunk() {
+    clearWatchdog();
+    if (idx >= chunks.length) { if (onend) onend(); return; }
+    const utterance = new SpeechSynthesisUtterance(chunks[idx]);
+    utterance.lang = 'ml-IN';
+    utterance.rate = 0.78;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    if (mlVoice) utterance.voice = mlVoice;
+
+    let finished = false;
+    const finishChunk = () => {
+      if (finished) return;
+      finished = true;
+      clearWatchdog();
+      idx++;
+      speakChunk();
+    };
+    utterance.onend = finishChunk;
+    utterance.onerror = finishChunk;
+
+    // Watchdog: many in-app/embedded WebViews (used by internal apps) silently
+    // pause or kill speechSynthesis without ever firing onend/onerror - the
+    // reading just appears to stop midway. This checks every 3s: if speech
+    // got paused (e.g. app briefly lost focus) it resumes it; if the engine
+    // seems stuck with nothing happening it nudges pause/resume (the usual
+    // fix for the ~15s WebView cutoff bug); if it stays stuck it moves on to
+    // the next chunk instead of hanging forever.
+    let stuckTicks = 0;
+    watchdogTimer = setInterval(() => {
+      if (finished) return;
+      const synth = window.speechSynthesis;
+      if (synth.paused) {
+        synth.resume();
+        stuckTicks = 0;
+      } else if (!synth.speaking && !synth.pending) {
+        stuckTicks++;
+        if (stuckTicks >= 2) finishChunk();
+      } else {
+        stuckTicks = 0;
+        synth.pause();
+        synth.resume();
+      }
+    }, 3000);
+
+    window.speechSynthesis.speak(utterance);
+  }
+  speakChunk();
+}
+
+// If the host app (internal WebView) briefly backgrounds/foregrounds this
+// page, some engines auto-pause speech and never auto-resume it. Nudge it
+// back on whenever the page becomes visible/focused again.
+if ('speechSynthesis' in window) {
+  const resumeIfPaused = () => {
+    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+  };
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeIfPaused(); });
+  window.addEventListener('focus', resumeIfPaused);
+  window.addEventListener('pageshow', resumeIfPaused);
+}
+
+function toggleAudio() {
+  state.audioEnabled = !state.audioEnabled;
+  document.getElementById('btnAudioToggle').innerText = state.audioEnabled ? '🔊' : '🔇';
+  if (!state.audioEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else if (document.exitFullscreen) document.exitFullscreen();
+}
+
+function updateStatsUI() {
+  document.getElementById('valScore').innerText = state.score;
+  document.getElementById('valLives').innerText = state.lives;
+  document.getElementById('valStars').innerText = state.stars;
+  document.getElementById('progressBar').style.width = Math.min(100, Math.max(5, state.score / 2.5)) + '%';
+}
+
+function showRewardModal() { playSound('fanfare'); document.getElementById('rewardModal').classList.add('active'); }
+function closeRewardModal() { document.getElementById('rewardModal').classList.remove('active'); showScreen('homeScreen'); }
+
+function revealModel(id, btn) {
+  const el = document.getElementById(id);
+  const isHidden = el.style.display !== 'block';
+  el.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) {
+    state.score += 5; updateStatsUI(); playSound('correct');
+    if (btn) btn.innerText = '🙈 ഒളിപ്പിക്കുക (Hide)';
+  } else {
+    if (btn) btn.innerText = '💡 മാതൃകാ രൂപരേഖ കാണുക (Show)';
+  }
+}
+
+const POEM_STANZAS = [
+  "നാണിച്ചു പോകുന്നു, നീളൻകുട ചൂടി ഞാനീ വരമ്പിൻ കൊതുമ്പിൽ നിൽക്കേ, ഏതൊരു വിശ്വവിദ്യാലയത്തിങ്കലെൻ സോദരിമാരേ, പഠിച്ചു നിങ്ങൾ? കൈവശമാക്കുവാനിക്കലാവൈഭവമേതൊരധ്യാപകൻ കൂട്ടുനിന്നു?",
+  "കന്നിനെൽക്കണ്ടമുഴുതുമറിക്കുന്നു; മണ്ണിൻ പുതുമണം പൊങ്ങിടുന്നു; ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു വിണ്ണിൻ വിളിപ്പാടും ചോന്നിതല്ലോ! അങ്ങേലുമിങ്ങേലും പെണ്ണുങ്ങൾ പാഞ്ഞെണീറ്റന്യോന്യം ചൊല്ലിവിളിക്കയായി.",
+  "വേലിപ്പടർപ്പിലെ പച്ചിലച്ചാർത്തിങ്കലോലക്കിളികൾ ചിലച്ചീടുന്നു. ചെന്നിക്കൽ കെട്ടിച്ചെരിച്ചു നിറുത്തിയ ചെമ്മേലും കുന്തളബന്ധങ്ങളിൽ 'തുമ്മാൻ' ചെരുതി, യുടുപുടത്തുമ്പുകളൊന്നു മേലാക്കം കയറ്റിക്കുത്തി കാലുപുതയും വരമ്പത്തെപ്പാഴ്ച്ചളിത്താരയിൽത്താമരത്താർ വിടർത്തി.",
+  "മന്ദമുണർന്നു ദിഗന്തങ്ങൾ, നേരിയ മഞ്ഞുപോൽ പൂമഴയൊന്നു പാറി; പച്ചിലക്കൂട്ടവും പാടവും മാടവും ചക്രവാളാന്തവുമെങ്ങുമെങ്ങും ഒന്നു കുളിർന്നു നനഞ്ഞു ഹാ,യെന്തൊരു സുന്ദരാലേഖ്യം നീ, കേരളമേ!",
+  "കിക്കിളിക്കൂട്ടിയുഴവുചാലിൽക്കൂടി 'പൊക്കിള' പൊന്തും വയൽച്ചളിയിൽ മന്ദമിറങ്ങി, നിരന്നു, നിലകൊണ്ടു പെണ്ണുങ്ങൾ, മണ്ണിന്നരുമമക്കൾ, കൈകൾ കിണഞ്ഞു പണികയായ് ഞാറിന്മേൽ കാൽകൾ ചളിയിൽ കുതിക്കയായി; താഴെ, വയലിൽ, നിരയായ് നിരയായി നീലനീരാളം വിരിയുകയായ്; വായുവിൽ, കേരളവീരാപദാനങ്ങളാലോലനർത്തനമാടുകയായ്!",
+  "സന്തതതൂലികാസാഹചര്യംകൊണ്ടു നൊന്തു മരവിച്ച മൽക്കരമേ! മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം! ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ!!"
+];
+
+const POEM_DISPLAY_LINES = [
+  "നാണിച്ചു പോകുന്നു, നീളൻകുട ചൂടി<br>ഞാനീ വരമ്പിൻ കൊതുമ്പിൽ നിൽക്കേ,<br>ഏതൊരു വിശ്വവിദ്യാലയത്തിങ്കലെൻ<br>സോദരിമാരേ, പഠിച്ചു നിങ്ങൾ?<br>കൈവശമാക്കുവാനിക്കലാവൈഭവ-<br>മേതൊരധ്യാപകൻ കൂട്ടുനിന്നു?",
+  "കന്നിനെൽക്കണ്ടമുഴുതുമറിക്കുന്നു;<br>മണ്ണിൻ പുതുമണം പൊങ്ങിടുന്നു;<br>ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു<br>വിണ്ണിൻ വിളിപ്പാടും ചോന്നിതല്ലോ!<br>അങ്ങേലുമിങ്ങേലും പെണ്ണുങ്ങൾ പാഞ്ഞെണീ-<br>റ്റന്യോന്യം ചൊല്ലിവിളിക്കയായി.",
+  "വേലിപ്പടർപ്പിലെ പച്ചിലച്ചാർത്തിങ്ക-<br>ലോലക്കിളികൾ ചിലച്ചീടുന്നു.<br>ചെന്നിക്കൽ കെട്ടിച്ചെരിച്ചു നിറുത്തിയ<br>ചെമ്മേലും കുന്തളബന്ധങ്ങളിൽ<br>'തുമ്മാൻ' ചെരുതി, യുടുപുടത്തുമ്പുക-<br>ളൊന്നു മേലാക്കം കയറ്റിക്കുത്തി<br>കാലുപുതയും വരമ്പത്തെപ്പാഴ്ച്ചളി-<br>ത്താരയിൽത്താമരത്താർ വിടർത്തി.",
+  "മന്ദമുണർന്നു ദിഗന്തങ്ങൾ, നേരിയ<br>മഞ്ഞുപോൽ പൂമഴയൊന്നു പാറി;<br>പച്ചിലക്കൂട്ടവും പാടവും മാടവും<br>ചക്രവാളാന്തവുമെങ്ങുമെങ്ങും<br>ഒന്നു കുളിർന്നു നനഞ്ഞു ഹാ,യെന്തൊരു<br>സുന്ദരാലേഖ്യം നീ, കേരളമേ!",
+  "കിക്കിളിക്കൂട്ടിയുഴവുചാലിൽക്കൂടി<br>'പൊക്കിള' പൊന്തും വയൽച്ചളിയിൽ<br>മന്ദമിറങ്ങി, നിരന്നു, നിലകൊണ്ടു<br>പെണ്ണുങ്ങൾ, മണ്ണിന്നരുമമക്കൾ,<br>കൈകൾ കിണഞ്ഞു പണികയായ് ഞാറിന്മേൽ<br>കാൽകൾ ചളിയിൽ കുതിക്കയായി;<br>താഴെ, വയലിൽ, നിരയായ് നിരയായി<br>നീലനീരാളം വിരിയുകയായ്;<br>വായുവിൽ, കേരളവീരാപദാനങ്ങ-<br>ളാലോലനർത്തനമാടുകയായ്!",
+  "സന്തതതൂലികാസാഹചര്യംകൊണ്ടു<br>നൊന്തു മരവിച്ച മൽക്കരമേ!<br>മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലാ-<br>യഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം!<br>ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ<br>നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ!!"
+];
+
+const VOCAB_MATRIX = [
+  { word: 'ഗ്രാമശ്രീകൾ', meaning: 'നാടിന് ഐശ്വര്യവും സമൃദ്ധിയും നൽകുന്ന കർഷകസ്ത്രീകൾ', paryayam: 'നാട്ടിൻഐശ്വര്യം, കർഷകവനിതകൾ', vipareetham: 'അലസന്മാർ', prayogam: 'ഗ്രാമശ്രീകൾ പാടത്തിറങ്ങി നാടിന്റെ നന്മകൾ നെയ്തെടുക്കുന്നു.' },
+  { word: 'സുന്ദരാലേഖ്യം', meaning: 'മനോഹരമായ ചിത്രം / പ്രകൃതിചിത്രം', paryayam: 'വർണ്ണചിത്രം, മനോഹരചിത്രം', vipareetham: 'രൂപഹീനത', prayogam: 'മഴനനഞ്ഞ കേരളം ഒരു സുന്ദരാലേഖ്യംപോലെ ശോഭിക്കുന്നു.' },
+  { word: 'നീലനീരാളം', meaning: 'നീല നിറത്തിലുള്ള പട്ടുറുമാൽ / നീലപ്പട്ട് (ഞാറ്റടി)', paryayam: 'നീലപ്പട്ട്, നീലാംബരം', vipareetham: 'വരണ്ട നിലം', prayogam: 'ഞാറുനട്ട പാടം നീലനീരാളം വിരിച്ചതുപോലെ കാണപ്പെട്ടു.' },
+  { word: 'കുന്തളബന്ധം', meaning: 'മുടി കെട്ടിവെച്ച രീതി / കേശഭാരം', paryayam: 'കൂന്തൽക്കെട്ട്, മുടിക്കെട്ട്', vipareetham: 'അഴിഞ്ഞ മുടി', prayogam: 'കുന്തളബന്ധങ്ങളിൽ തുളസിപ്പൂക്കൾ തിരുകി അവർ അണിനിരന്നു.' },
+  { word: 'അപദാനങ്ങൾ', meaning: 'വീരകൃത്യങ്ങൾ / പ്രകീർത്തനങ്ങൾ', paryayam: 'വീരഗാഥകൾ, ചരിതങ്ങൾ', vipareetham: 'നിന്ദകൾ', prayogam: 'കേരളവീരാപദാനങ്ങൾ പാടി അവർ ഞാറുനട്ടു.' }
+];
+
+const QUIZ_DATA = [
+  { q: '‘ഗ്രാമശ്രീകൾ’ എന്ന കവിതയുടെ രചയിതാവ് ആര്?', opts: ['കടത്തനാട്ട് മാധവി അമ്മ', 'ബാലാമണിയമ്മ', 'സുഗതകുമാരി', 'വിജയലക്ഷ്മി'], ans: 0 },
+  { q: 'കവി കർഷകസ്ത്രീകളെ എന്തു വിശേഷണത്തിലാണ് ആദരിക്കുന്നത്?', opts: ['ഗ്രാമശ്രീകൾ (നാടിന്റെ ഐശ്വര്യം)', 'വനദേവതമാർ', 'വീരവനിതകൾ', 'പൂങ്കന്യകൾ'], ans: 0 },
+  { q: '“ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു വിണ്ണിൻ വിളിപ്പാടും ചോന്നിതല്ലോ” - എന്തിനെയാണ് വർണ്ണിക്കുന്നത്?', opts: ['പ്രഭാതസൂര്യന്റെ ഉദയവും ആകാശത്തിന്റെ ചുവപ്പുരാശിയും', 'സന്ധ്യാസമയത്തെ വെയിൽ', 'മഴക്കാലം', 'രാത്രിവെളിച്ചം'], ans: 0 },
+  { q: 'വയലിൽ നിരയായി നട്ടുപിടിപ്പിച്ച ഞാറുകളെ എന്തിനോടാണ് കവി ഉപമിക്കുന്നത്?', opts: ['നീലനീരാളം (നീലപ്പട്ട്) വിരിയുന്നതുപോലെ', 'കോട്ടപോലെ', 'പുകപോലെ', 'ചായപ്പണിപോലെ'], ans: 0 },
+  { q: '‘വിശ്വവിദ്യാലയം’ എന്നതുകൊണ്ട് കവി ഉദ്ദേശിക്കുന്നത് എന്താണ്?', opts: ['പ്രകൃതിയാകുന്ന മഹാപാഠശാലയും അനുഭവജ്ഞാനവും', 'വിദേശ സർവ്വകലാശാല', 'സ്കൂൾ കെട്ടിടം', 'ഗ്രന്ഥശാല'], ans: 0 },
+  { q: '“ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ” - നൽകുന്ന സന്ദേശമേത്?', opts: ['കർഷകരുടെ അധ്വാനമാണ് നാടിന്റെ നിലനിൽപ്പും സമൃദ്ധിയും', 'ചളിയിൽ കളിക്കരുത്', 'എഴുത്തു മാത്രമാണ് വലുത്', 'വിശ്രമമാണ് പ്രധാനം'], ans: 0 },
+  { q: '‘സുന്ദരാലേഖ്യം’ എന്ന പദത്തിന്റെ അർത്ഥം എന്താണ്?', opts: ['മനോഹരമായ ചിത്രം', 'കവിത', 'ഗാനം', 'നാടകം'], ans: 0 },
+  { q: '“ഉർവിയേപ്പുഷ്പിപ്പിക്കും കലപോൽ നമുക്കത്ര നിർവൃതികരം സർഗവ്യാപാരമുണ്ടോ മന്നിൽ?” - ആരുടെ വരികൾ?', opts: ['വൈലോപ്പിള്ളി ശ്രീധരമേനോൻ', 'കടത്തനാട്ട് മാധവി അമ്മ', 'വള്ളത്തോൾ', 'കുമാരനാശാൻ'], ans: 0 },
+  { q: '‘കുന്തളബന്ധം’ എന്ന വാക്കിന്റെ അർത്ഥം എന്താണ്?', opts: ['മുടിക്കെട്ട് / കൂന്തൽ', 'വള', 'മാല', 'പാദസരം'], ans: 0 },
+  { q: 'കവി സ്വന്തം കരങ്ങളോട് എന്തു ചെയ്യാനാണ് ആവശ്യപ്പെടുന്നത്?', opts: ['കർഷകരുടെ മനോജ്ഞമായ കലാസൃഷ്ടിക്കു മുമ്പിൽ ഭക്തിപൂർവ്വം അഞ്ജലിയർപ്പിക്കാൻ', 'എഴുത്ത് നിർത്താൻ', 'കുട പിടിക്കാൻ', 'പാടത്തിറങ്ങാൻ'], ans: 0 },
+  { q: 'കടത്തനാട്ട് മാധവി അമ്മ അറിയപ്പെടുന്നത് ഏത് വിശേഷണത്തിലാണ്?', opts: ['കടത്തനാടിന്റെ കവയിത്രി', 'സ്നേഹഗായിക', 'വിപ്ലവ കവയിത്രി', 'ശബ്ദസുന്ദരി'], ans: 0 },
+  { q: '‘ദിഗന്തങ്ങൾ’ എന്ന പദം പിരിച്ചെഴുതിയാൽ ലഭിക്കുന്നത് എന്താണ്?', opts: ['ദിക് + അന്തങ്ങൾ', 'ദിഗ് + അന്തങ്ങൾ', 'ദിഗ + അന്തങ്ങൾ', 'ദിശാ + അന്തങ്ങൾ'], ans: 0 }
+];
+
+const G1_DATA = [
+  { q: '‘ഗ്രാമശ്രീകൾ’ എന്ന സമാസപദത്തിന്റെ അർത്ഥം:', opts: ['ഗ്രാമത്തിന്റെ ഐശ്വര്യമായ കർഷകസ്ത്രീകൾ', 'നഗരവാസികൾ', 'പൂക്കൾ', 'കിളികൾ'], ans: 0 },
+  { q: '‘നീലനീരാളം’ എന്നത് സൂചിപ്പിക്കുന്നത്:', opts: ['പച്ചപ്പ് വിരിഞ്ഞ ഞാറ്റടി / നീലപ്പട്ട്', 'കടൽവെള്ളം', 'ആകാശം', 'മഴ'], ans: 0 },
+  { q: '‘സുന്ദരാലേഖ്യം’ എന്നതിലെ ‘ആലേഖ്യം’ എന്നാൽ:', opts: ['ചിത്രം / വരയ്ക്കപ്പെട്ട രൂപം', 'ലേഖനം', 'കത്ത്', 'കവിത'], ans: 0 },
+  { q: '‘മഞ്ജുളം’ എന്ന പദത്തിന്റെ അർത്ഥം:', opts: ['മനോഹരമായത് / കാന്തിമത്തായത്', 'വലുതായത്', 'കഠിനമായത്', 'തണുത്തത്'], ans: 0 }
+];
+
+const G2_PAIRS = [
+  { id: '1', left: 'വരമ്പത്തെ പാഴ്ച്ചളി', right: 'താമരത്താർ വിടർത്തി (രൂപകം)' },
+  { id: '2', left: 'ഞാറുനട്ട പാടം', right: 'നീലനീരാളം വിരിയുകയായ്' },
+  { id: '3', left: 'ഉണ്ണിക്കതിരോന്റെ പൊൻകിരണം', right: 'വിണ്ണിൻ വിളിപ്പാട് ചോന്നു' },
+  { id: '4', left: 'മണ്ണിന്നരുമമക്കൾ', right: 'പെണ്ണുങ്ങൾ (ഗ്രാമശ്രീകൾ)' }
+];
+
+const G3_DATA = [
+  { q: '‘കതിരോൻ’ എന്ന പദത്തിന്റെ പര്യായം ഏത്?', opts: ['സൂര്യൻ / ആദിത്യൻ / ഭാസ്കരൻ', 'ചന്ദ്രൻ', 'നക്ഷത്രം', 'മേഘം'], ans: 0 },
+  { q: '‘മഞ്ജുളം’ എന്ന പദത്തിന്റെ വിപരീതം ഏത്?', opts: ['കുരൂപം / വിരസം', 'സുന്ദരം', 'കോമളം', 'മനോജ്ഞം'], ans: 0 },
+  { q: '‘ഉർവി’ എന്ന പദത്തിന്റെ പര്യായം ഏത്?', opts: ['ഭൂമി / പൃഥ്വി / ധരണി', 'ആകാശം', 'കടൽ', 'കാറ്റ്'], ans: 0 },
+  { q: '‘നിർവൃതി’ എന്ന വാക്കിന്റെ അർത്ഥം ഏത്?', opts: ['പരമാനന്ദം / സംതൃപ്തി', 'വേദന', 'ദാഹം', 'വിശപ്പ്'], ans: 0 }
+];
+
+const G4_DATA = [
+  { q: 'അന്വയക്രമം ശരിയാക്കുക:<br><i>"നാട്ടിന്റെ നന്മകൾ / ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീ / നെയ്തെടുപ്പൂ / തൂവിരൽത്തുമ്പത്രേ"</i>',
+    opts: [
+      'ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീ തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ!',
+      'നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീ തൂവിരൽത്തുമ്പത്രേ.',
+      'തൂവിരൽത്തുമ്പത്രേ ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീ നാട്ടിന്റെ നന്മകൾ നെയ്തെടുപ്പൂ.',
+      'നെയ്തെടുപ്പൂ നാട്ടിന്റെ നന്മകൾ ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീ തൂവിരൽത്തുമ്പത്രേ.'
+    ], ans: 0 }
+];
+
+const G5_DATA = [
+  { q: 'നീളൻകുട ചൂടി വരമ്പത്തുനിൽക്കുന്ന കവിക്ക് കർഷകസ്ത്രീകളെക്കണ്ട് നാണം തോന്നാൻ കാരണം:', opts: ['അവരുടെ കഠിനാധ്വാനത്തിനും കലാവൈഭവത്തിനും മുന്നിൽ താൻ ഒന്നുമല്ലെന്ന തിരിച്ചറിവ്', 'വസ്ത്രം നനഞ്ഞതുകൊണ്ട്', 'ചളി പുരണ്ടതുകൊണ്ട്', 'ആളുകൾ നോക്കിയതുകൊണ്ട്'], ans: 0 },
+  { q: '“ഏതൊരു വിശ്വവിദ്യാലയത്തിങ്കലെൻ സോദരിമാരേ, പഠിച്ചു നിങ്ങൾ?” - ചോദ്യത്തിലെ കാവ്യഭാവം:', opts: ['അധ്വാനിക്കുന്ന കൈകളുടെ നൈപുണ്യത്തോടുള്ള ആദരവും വിസ്മയവും', 'പരിഹാസം', 'സംശയം', 'അജ്ഞത'], ans: 0 }
+];
+
+const G6_DATA = [
+  { q: '“മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം” - കൃഷിയെ എന്തായാണ് കവി സങ്കല്പിക്കുന്നത്?', opts: ['ഉത്കൃഷ്ടമായ സർഗ്ഗാത്മക കലാസൃഷ്ടിയായി (Creative Art)', 'വെറുമൊരു തൊഴിലായി', 'ഭാരമുള്ള പണിയായി', 'വിനോദമായി'], ans: 0 },
+  { q: '“സുന്ദരാലേഖ്യം നീ, കേരളമേ!” - ഇതിലെ അലങ്കാരഭംഗി:', opts: ['രൂപകാലങ്കാരം (മഴനനഞ്ഞ കേരളത്തെ മനോഹര ചിത്രമായി ചിത്രീകരിക്കുന്നു)', 'ഉപമ മാത്രം', 'ശ്ലേഷം', 'യമകം'], ans: 0 }
+];
+
+function showScreen(id) {
+  playSound('click');
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+  
+  if (id === 'readingScreen') renderPoem();
+  if (id === 'vocabMatrixScreen') renderVocabMatrix();
+  if (id === 'activitiesScreen') renderActivities();
+  if (id === 'quizScreen') renderQuiz();
+  if (id === 'modelQPScreen') renderModelQP();
+  if (id === 'discourseScreen') renderDiscourses();
+  if (id === 'authorScreen') renderAuthor();
+  if (id === 'extraPoemScreen') renderExtraPoem();
+}
+
+function playSingleStanza(idx) { speakMalayalam(POEM_STANZAS[idx]); }
+
+function renderPoem() {
+  const container = document.getElementById('poemContainer');
+  container.innerHTML = '';
+  POEM_DISPLAY_LINES.forEach((stanzaHtml, idx) => {
+    const div = document.createElement('div');
+    div.className = 'poem-stanza';
+    div.innerHTML = `
+      <div class="poem-text ml">${stanzaHtml}</div>
+      <button class="mini-play" onclick="playSingleStanza(${idx})">🔊</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+let isReadingPoem = false;
+function readAllPoem() {
+  if (isReadingPoem) {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    isReadingPoem = false;
+    return;
+  }
+  isReadingPoem = true;
+  let cur = 0;
+  function next() {
+    if (cur >= POEM_STANZAS.length || !isReadingPoem) {
+      isReadingPoem = false;
+      return;
+    }
+    speakMalayalam(POEM_STANZAS[cur], () => {
+      cur++;
+      next();
+    });
+  }
+  next();
+}
+
+function renderVocabMatrix() {
+  const grid = document.getElementById('vocabMatrixGrid');
+  grid.innerHTML = '';
+  VOCAB_MATRIX.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="vocab-word ml">
+        <span>${item.word}</span>
+        <button class="icon-btn" style="width:34px; height:34px; font-size:0.95rem;" onclick="speakMalayalam('${item.word}. ${item.meaning}')">🔊</button>
+      </div>
+      <div class="vocab-row ml"><b>അർത്ഥം:</b> ${item.meaning}</div>
+      <div class="vocab-row ml"><b>പര്യായങ്ങൾ:</b> ${item.paryayam}</div>
+      <div class="vocab-row ml"><b>വിപരീതം:</b> ${item.vipareetham}</div>
+      <div class="vocab-row ml" style="background:#F1F8E9; padding:8px; border-radius:8px; margin-top:8px;"><b>പ്രയോഗം:</b> <i>"${item.prayogam}"</i></div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderActivities() {
+  const container = document.getElementById('activitiesContainer');
+  container.innerHTML = `
+    <div class="activity-block">
+      <div class="activity-heading ml">1. കാവ്യവിചാരവും വിശകലനവും</div>
+      <div class="activity-desc ml"><b>ചോദ്യം:</b> “മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം” - കൃഷി ഒരു ഉത്കൃഷ്ടമായ കലാസൃഷ്ടിയാകുന്നത് എങ്ങനെ? വിശകലനം ചെയ്യുക.</div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns1', this)">💡 മാതൃകാ വിശകലനം</button>
+      <div class="model-answer-box ml" id="actAns1">
+        <b>വിശകലന സൂചിക:</b><br>
+        1. <b>സൃഷ്ടിപരമായ താളം:</b> ഒരു ശില്പിയോ ചിത്രകാരനോ ക്യാൻവാസിൽ ചിത്രം വരയ്ക്കുന്നതുപോലെയാണ് കർഷകർ ചേറുനിറഞ്ഞ വയലിൽ പച്ചപ്പരവതാനി നെയ്തെടുക്കുന്നത്.<br>
+        2. <b>പ്രകൃതിയുമായുള്ള താദാത്മ്യം:</b> കാറ്റും മഴയും വെയിലും ഒരുക്കുന്ന പ്രകൃതിവേദിയിൽ ജീവന്റെ വിത്ത് മുളപ്പിച്ചുണ്ടാക്കുന്ന ഉത്കൃഷ്ടമായ ജീവകലയാണ് കൃഷി.<br>
+        3. <b>നിസ്വാർത്ഥമായ അധ്വാനം:</b> സ്വന്തം തൂലിക കൊണ്ട് എഴുതുന്ന കവിതയെക്കാൾ വിശപ്പകറ്റുന്ന അന്നം വിളയിക്കുന്ന കർഷകരുടെ വിരൽത്തുമ്പുകളാണ് നാടിന്റെ നന്മകൾ സൃഷ്ടിക്കുന്നത്.
+      </div>
+    </div>
+  `;
+}
+
+function renderDiscourses() {
+  const c = document.getElementById('discourseContainer');
+  c.innerHTML = `
+    <div class="activity-block">
+      <div class="activity-heading ml">സമഗ്ര ആസ്വാദനക്കുറിപ്പ് (Critical Appreciation Note)</div>
+      <div class="activity-desc ml">കടത്തനാട്ട് മാധവി അമ്മയുടെ ‘ഗ്രാമശ്രീകൾ’ എന്ന കവിതയിലെ കർഷക സ്നേഹം, പ്രഭാത വർണ്ണന, കാവ്യാലങ്കാരങ്ങൾ എന്നിവ ഉൾപ്പെടുത്തി ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക.</div>
+      <button class="reveal-model-btn ml" onclick="revealModel('disc1', this)">💡 മാതൃകാ ആസ്വാദനക്കുറിപ്പ്</button>
+      <div class="model-answer-box ml" id="disc1">
+        <h4 style="color:var(--primary); text-align:center;">മണ്ണിന്റെ മണമുള്ള ഗ്രാമശ്രീകൾ</h4>
+        <p style="margin-top:6px;">കേരളത്തിന്റെ കാർഷിക പാരമ്പര്യത്തെയും അധ്വാനിക്കുന്ന കർഷകസ്ത്രീകളുടെ മാഹാത്മ്യത്തെയും ഹൃദയസ്പർശിയായി ആവിഷ്കരിക്കുന്ന മനോഹര കവിതയാണ് കടത്തനാട്ട് മാധവി അമ്മയുടെ 'ഗ്രാമശ്രീകൾ'. അതിരാവിലെ ഉഴുതുമറിച്ച പാടത്തിറങ്ങി ഞാറുനടുന്ന സ്ത്രീകളെ നാടിന്റെ ഐശ്വര്യമായ 'ഗ്രാമശ്രീ'കളായാണ് കവയിത്രി കാണുന്നത്. അവർ കൈവശമാക്കിയ ഈ കൃഷിനൈപുണ്യം ഏതെങ്കിലും വിശ്വവിദ്യാലയത്തിൽനിന്നു പഠിച്ചതല്ല, പ്രകൃതിയുടെ അനുഭവപാഠശാലയിൽനിന്ന് ആർജ്ജിച്ചതാണ്. ഉണ്ണിക്കതിരോന്റെ പൊൻകിരണങ്ങളേറ്റു ചുവക്കുന്ന ആകാശവും, ഞാറുനട്ട പാടം നീലപ്പട്ടുവിരിച്ചതുപോലെ കാണപ്പെടുന്നതും കവിതയുടെ ദൃശ്യഭംഗി കൂട്ടുന്നു. എഴുത്തുകാരിയുടെ തൂലികയെക്കാൾ നാടിന് നന്മ പകരുന്നത് കർഷകരുടെ വിരൽത്തുമ്പുകളാണെന്ന പ്രഖ്യാപനം അധ്വാനത്തിന്റെ മഹത്വം വിളിച്ചോതുന്നു.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderAuthor() {
+  const c = document.getElementById('authorContainer');
+  c.innerHTML = `
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:18px; flex-wrap:wrap;">
+      <div style="font-size:4rem; background:#E8F5E9; border-radius:50%; width:90px; height:90px; display:flex; align-items:center; justify-content:center; border:3px solid #81C784;">✍️</div>
+      <div>
+        <h2 class="ml" style="color:var(--primary); font-size:1.6rem;">കടത്തനാട്ട് മാധവി അമ്മ (1909 - 1999)</h2>
+        <div class="ml" style="font-size:1.05rem; color:#E65100; font-weight:700;">കടത്തനാടിന്റെ പ്രിയ കവയിത്രി · നാടൻ തനിമയുടെ ശബ്ദം</div>
+      </div>
+    </div>
+    <table class="custom-table ml">
+      <tr><th>ജനനം</th><td>1909 നവംബർ, കോഴിക്കോട് ജില്ലയിലെ വടകരയ്ക്കടുത്ത് ഇരിങ്ങണ്ണൂർ</td></tr>
+      <tr><th>പ്രധാന കൃതികൾ</th><td>കനകച്ചിലങ്ക, ഗ്രാമശ്രീകൾ, തച്ചോളി ഒതേനൻ, പച്ചപ്പട്ടുറുമാൽ, മാധവീകവിതകൾ</td></tr>
+      <tr><th>പ്രത്യേകതകൾ</th><td>വടക്കൻപാട്ടുകളുടെയും ഗ്രാമീണ ജീവിതത്തിന്റെയും നാടൻ തനിമ തുളുമ്പുന്ന ലളിതവും മനോഹരവുമായ കാവ്യശൈലി.</td></tr>
+      <tr><th>പുരസ്കാരങ്ങൾ</th><td>കേരള സാഹിത്യ അക്കാദമി അവാർഡ്, ആശാൻ പുരസ്കാരം</td></tr>
+    </table>
+  `;
+}
+
+function renderExtraPoem() {
+  const c = document.getElementById('extraPoemContainer');
+  c.innerHTML = `
+    <div style="background:#FFF3E0; padding:20px; border-radius:18px; border:2px solid #FFE082;">
+      <h3 class="ml" style="color:#E65100; font-size:1.35rem; margin-bottom:12px;">താരതമ്യ വായന - വൈലോപ്പിള്ളി ശ്രീധരമേനോൻ</h3>
+      <div class="ml" style="font-size:1.22rem; line-height:2.2; color:#3E2723; margin-bottom:16px;">
+        "ഉർവിയേപ്പുഷ്പിപ്പിക്കും കലപോൽ നമുക്കത്ര<br>
+        നിർവൃതികരം സർഗവ്യാപാരമുണ്ടോ മന്നിൽ?"
+      </div>
+      <p class="ml" style="font-size:1.05rem; line-height:1.7;"><b>ആശയപ്പൊരുത്തം:</b> ഭൂമിയെ പുഷ്പിപ്പിക്കുന്ന കൃഷിയേക്കാൾ വലിയൊരു സർഗ്ഗാത്മക സൃഷ്ടി വേറെയില്ലെന്ന വൈലോപ്പിള്ളിയുടെ ചിന്ത 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയിലെ ആശയവുമായി തികച്ചും പൊരുത്തപ്പെടുന്നു.</p>
+    </div>
+  `;
+}
+
+function renderModelQP() {
+  const c = document.getElementById('modelQPContent');
+  c.innerHTML = `
+    <div class="qp-title ml">FIRST TERMINAL EVALUATION (MODEL QUESTION PAPER)</div>
+    <div class="qp-meta ml"><b>സ്റ്റാൻഡേർഡ് 7 · മലയാളം (അടിസ്ഥാനപാഠാവലി) · യൂണിറ്റ് 1 (പാഠം 1: ഗ്രാമശ്രീകൾ)</b><br>Max. Marks: 30 &nbsp;|&nbsp; Time: 45 Minutes &nbsp;|&nbsp; തയ്യാറാക്കിയത്: Smart Vidhya</div>
+
+    <div class="qp-section-title ml">I. ശരിയായ ഉത്തരം തെരഞ്ഞെടുത്തെഴുതുക (Choose the correct answer) [4 x 1 = 4]</div>
+    <div class="qp-q-box ml"><b>1.</b> 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയുടെ രചയിതാവ് ആര്?<br>(A) കടത്തനാട്ട് മാധവി അമ്മ &nbsp; (B) ബാലാമണിയമ്മ &nbsp; (C) സുഗതകുമാരി &nbsp; (D) വിജയലക്ഷ്മി</div>
+    <div class="qp-q-box ml"><b>2.</b> “ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു...” - 'കതിരോൻ' എന്നാൽ എന്താണ്?<br>(A) സൂര്യൻ &nbsp; (B) ചന്ദ്രൻ &nbsp; (C) നക്ഷത്രം &nbsp; (D) മഴക്കാറ്</div>
+    <div class="qp-q-box ml"><b>3.</b> ഞാറുനട്ട പാടത്തെ കവി ഉപമിച്ചിരിക്കുന്നത് എന്തിനോടാണ്?<br>(A) നീലനീരാളം (നീലപ്പട്ട്) &nbsp; (B) കോട്ട &nbsp; (C) ആഴി &nbsp; (D) മേഘം</div>
+    <div class="qp-q-box ml"><b>4.</b> 'വിശ്വവിദ്യാലയം' എന്നതുകൊണ്ട് കവി ഉദ്ദേശിക്കുന്നത് എന്താണ്?<br>(A) പ്രകൃതിയാകുന്ന മഹാപാഠശാല &nbsp; (B) കോളേജ് &nbsp; (C) സ്കൂൾ &nbsp; (D) അമ്പലം</div>
+
+    <div class="qp-section-title ml">II. ശരിയോ തെറ്റോ എന്ന് രേഖപ്പെടുത്തുക (True or False) [3 x 1 = 3]</div>
+    <div class="qp-q-box ml"><b>5.</b> കർഷകസ്ത്രീകളുടെ കരവിരുതിനെ ഒരു ഉത്കൃഷ്ട കലാസൃഷ്ടിയായാണ് കവി കാണുന്നത്. ( )</div>
+    <div class="qp-q-box ml"><b>6.</b> കർഷകർ നാടിന്റെ നന്മകൾ നെയ്തെടുക്കുന്നത് തങ്ങളുടെ അധ്വാനത്തിലൂടെയാണ്. ( )</div>
+    <div class="qp-q-box ml"><b>7.</b> 'ഉർവിയേപ്പുഷ്പിപ്പിക്കും കല...' എന്ന് പാടിയത് കുമാരനാശാനാണ്. ( )</div>
+
+    <div class="qp-section-title ml">III. വിട്ടുപോയ ഭാഗം പൂരിപ്പിക്കുക (Fill in the blanks) [3 x 1 = 3]</div>
+    <div class="qp-q-box ml"><b>8.</b> ഒന്നു കുളിർന്നു നനഞ്ഞു ഹാ,യെന്തൊരു ............ നീ, കേരളമേ!</div>
+    <div class="qp-q-box ml"><b>9.</b> ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ ............ നെയ്തെടുപ്പൂ!!</div>
+    <div class="qp-q-box ml"><b>10.</b> 'ഗ്രാമശ്രീകൾ' ............ എന്ന കവയിത്രിയുടെ രചനയാണ്.</div>
+
+    <div class="qp-section-title ml">IV. ലഘു ഉത്തരമെഴുതുക (Short Answer) [3 x 2 = 6]</div>
+    <div class="qp-q-box ml"><b>11.</b> കർഷകസ്ത്രീകളെ 'ഗ്രാമശ്രീകൾ' എന്ന് വിശേഷിപ്പിക്കാൻ കാരണമെന്ത്?</div>
+    <div class="qp-q-box ml"><b>12.</b> പ്രഭാതത്തിന്റെ വരവിനെ കവി വർണ്ണിച്ചിരിക്കുന്നത് എങ്ങനെയാണ്?</div>
+    <div class="qp-q-box ml"><b>13.</b> “സുന്ദരാലേഖ്യം നീ കേരളമേ” എന്ന് കവി പറയാൻ കാരണമെന്ത്?</div>
+
+    <div class="qp-section-title ml">V. കാവ്യസൗന്ദര്യ വിശകലനം (2 x 3 = 6]</div>
+    <div class="qp-q-box ml"><b>14.</b> “താഴെ, വയലിൽ, നിരയായ് നിരയായി / നീലനീരാളം വിരിയുകയായ്” - കാവ്യഭംഗി വിശദമാക്കുക.</div>
+    <div class="qp-q-box ml"><b>15.</b> പര്യായപദങ്ങൾ എഴുതുക: (A) ഉർവി (B) കതിരോൻ (C) കുന്തളം</div>
+
+    <div class="qp-section-title ml">VI. ആസ്വാദനക്കുറിപ്പ് (1 x 8 = 8]</div>
+    <div class="qp-q-box ml"><b>16.</b> 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയിലെ ആശയസമ്പുഷ്ടിയും പ്രയോഗഭംഗിയും വിശകലനം ചെയ്ത് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക.</div>
+
+    <button class="reveal-model-btn ml" style="width:100%; margin-top:14px;" onclick="revealModel('qpAnswerKey', this)">💡 Answer Key & Marking Scheme (ഉത്തരസൂചിക)</button>
+    <div class="model-answer-box ml" id="qpAnswerKey">
+      <b>മാതൃകാ ഉത്തരസൂചിക:</b><br>
+      1. (A) കടത്തനാട്ട് മാധവി അമ്മ &nbsp;|&nbsp; 2. (A) സൂര്യൻ &nbsp;|&nbsp; 3. (A) നീലനീരാളം &nbsp;|&nbsp; 4. (A) പ്രകൃതിയാകുന്ന മഹാപാഠശാല<br>
+      5. ശരി &nbsp;|&nbsp; 6. ശരി &nbsp;|&nbsp; 7. തെറ്റ് (വൈലോപ്പിള്ളി)<br>
+      8. സുന്ദരാലേഖ്യം &nbsp;|&nbsp; 9. നന്മകൾ &nbsp;|&nbsp; 10. കടത്തനാട്ട് മാധവി അമ്മ<br>
+      11. നാടിന്റെ ഐശ്വര്യവും സമൃദ്ധിയും അന്നവും പ്രദാനം ചെയ്യുന്ന കർഷകസ്ത്രീകളായതിനാൽ.<br>
+      12. ഉണ്ണിക്കതിരോന്റെ പൊൻവെളിച്ചമേറ്റ് ആകാശം ചുവക്കുന്നു, മണ്ണിൽ പുതുമണം പൊങ്ങുന്നു.<br>
+      13. പച്ചിലക്കൂട്ടവും പാടവും മഴയും ചേർന്ന് കേരളം അതിമനോഹരമായ ഒരു ചിത്രംപോലെ തോന്നിപ്പിക്കുന്നതിനാൽ.<br>
+      14. വയലിൽ നിരയായി നട്ടുപിടിപ്പിച്ച പച്ചഞാറുകളെ നീലപ്പട്ടുവിരിച്ചതായി ഉപമിച്ച ഭംഗി.<br>
+      15. ഉർവി = ഭൂമി/പൃഥ്വി, കതിരോൻ = സൂര്യൻ/ഭാസ്കരൻ, കുന്തളം = മുടി/കേശം.<br>
+      16. തലക്കെട്ട്, ആശയവ്യക്തത, കാവ്യാലങ്കാരങ്ങൾ, പ്രയോഗഭംഗി, വ്യക്തിഗത നിരീക്ഷണം എന്നിവ വിലയിരുത്തി മാർക്ക് നൽകുക.
+    </div>
+  `;
+}
+
+function printQuestionPaper() { window.print(); }
+
+function downloadTextQP() {
+  const textContent = `
+======================================================
+FIRST TERMINAL EVALUATION - STD 7 MALAYALAM (AT UNIT 1)
+പാഠം 1: ഗ്രാമശ്രീകൾ (കടത്തനാട്ട് മാധവി അമ്മ)
+Max. Marks: 30 | Time: 45 Minutes | Prepared by Smart Vidhya
+======================================================
+
+I. ശരിയായ ഉത്തരം തെരഞ്ഞെടുത്തെഴുതുക (4 x 1 = 4)
+1. 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയുടെ രചയിതാവ് ആര്?
+   (A) കടത്തനാട്ട് മാധവി അമ്മ  (B) ബാലാമണിയമ്മ  (C) സുഗതകുമാരി  (D) വിജയലക്ഷ്മി
+2. “ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു...” - 'കതിരോൻ' എന്നാൽ എന്താണ്?
+   (A) സൂര്യൻ  (B) ചന്ദ്രൻ  (C) നക്ഷത്രം  (D) മഴക്കാറ്
+3. ഞാറുനട്ട പാടത്തെ കവി ഉപമിച്ചിരിക്കുന്നത് എന്തിനോടാണ്?
+   (A) നീലനീരാളം  (B) കോട്ട  (C) ആഴി  (D) മേഘം
+4. 'വിശ്വവിദ്യാലയം' എന്നതുകൊണ്ട് കവി ഉദ്ദേശിക്കുന്നത് എന്താണ്?
+   (A) പ്രകൃതിയാകുന്ന മഹാപാഠശാല  (B) കോളേജ്  (C) സ്കൂൾ  (D) അമ്പലം
+
+II. ശരിയോ തെറ്റോ എന്ന് രേഖപ്പെടുത്തുക (3 x 1 = 3)
+5. കർഷകസ്ത്രീകളുടെ കരവിരുതിനെ ഒരു ഉത്കൃഷ്ട കലാസൃഷ്ടിയായാണ് കവി കാണുന്നത്. ( )
+6. കർഷകർ നാടിന്റെ നന്മകൾ നെയ്തെടുക്കുന്നത് തങ്ങളുടെ അധ്വാനത്തിലൂടെയാണ്. ( )
+7. 'ഉർവിയേപ്പുഷ്പിപ്പിക്കും കല...' എന്ന് പാടിയത് കുമാരനാശാനാണ്. ( )
+
+III. വിട്ടുപോയ ഭാഗം പൂരിപ്പിക്കുക (3 x 1 = 3)
+8. ഒന്നു കുളിർന്നു നനഞ്ഞു ഹാ,യെന്തൊരു ............ നീ, കേരളമേ!
+9. ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ ............ നെയ്തെടുപ്പൂ!!
+10. 'ഗ്രാമശ്രീകൾ' ............ എന്ന കവയിത്രിയുടെ രചനയാണ്.
+
+IV. ലഘു ഉത്തരമെഴുതുക (3 x 2 = 6)
+11. കർഷകസ്ത്രീകളെ 'ഗ്രാമശ്രീകൾ' എന്ന് വിശേഷിപ്പിക്കാൻ കാരണമെന്ത്?
+12. പ്രഭാതത്തിന്റെ വരവിനെ കവി വർണ്ണിച്ചിരിക്കുന്നത് എങ്ങനെയാണ്?
+13. “സുന്ദരാലേഖ്യം നീ കേരളമേ” എന്ന് കവി പറയാൻ കാരണമെന്ത്?
+
+V. കാവ്യസൗന്ദര്യ വിശകലനം (2 x 3 = 6)
+14. “താഴെ, വയലിൽ, നിരയായ് നിരയായി / നീലനീരാളം വിരിയുകയായ്” - കാവ്യഭംഗി വിശദമാക്കുക.
+15. പര്യായങ്ങൾ എഴുതുക: (A) ഉർവി (B) കതിരോൻ (C) കുന്തളം
+
+VI. ആസ്വാദനക്കുറിപ്പ് (1 x 8 = 8)
+16. 'ഗ്രാമശ്രീകൾ' എന്ന കവിത വിശകലനം ചെയ്ത് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക.
+======================================================
+`;
+  const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'STD7_Malayalam_AT_Unit1_Lesson1_QuestionPaper.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// Games Controller
+function launchGame(num) {
+  state.activeGame = num;
+  state.currentGameIndex = 0;
+  if (num === 1) state.gameQueue = [...G1_DATA];
+  else if (num === 3) state.gameQueue = [...G3_DATA];
+  else if (num === 4) state.gameQueue = [...G4_DATA];
+  else if (num === 5) state.gameQueue = [...G5_DATA];
+  else if (num === 6) state.gameQueue = [...G6_DATA];
+  renderCurrentGame();
+}
+
+function nextGameQuestion() {
+  state.currentGameIndex++;
+  if (state.currentGameIndex >= state.gameQueue.length) {
+    state.stars += 1; updateStatsUI(); showRewardModal();
+  } else {
+    renderCurrentGame();
+  }
+}
+
+function renderCurrentGame() {
+  if (state.activeGame === 1) renderGameGeneric('game1Screen', 'g1QuestionCard', 'g1OptionsGrid');
+  else if (state.activeGame === 2) renderGame2();
+  else if (state.activeGame === 3) renderGameGeneric('game3Screen', 'g3QuestionCard', 'g3OptionsGrid');
+  else if (state.activeGame === 4) renderGameGeneric('game4Screen', 'g4QuestionCard', 'g4OptionsGrid');
+  else if (state.activeGame === 5) renderGameGeneric('game5Screen', 'g5QuestionCard', 'g5OptionsGrid');
+  else if (state.activeGame === 6) renderGameGeneric('game6Screen', 'g6QuestionCard', 'g6OptionsGrid');
+}
+
+function renderGameGeneric(screenId, qCardId, gridId) {
+  showScreen(screenId);
+  const item = state.gameQueue[state.currentGameIndex];
+  document.getElementById(qCardId).innerHTML = item.q;
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  item.opts.forEach((opt, idx) => {
+    const b = document.createElement('button');
+    b.className = 'option-btn ml';
+    b.innerText = opt;
+    b.onclick = () => {
+      speakMalayalam(opt);
+      handleAcademicAnswer(idx === item.ans, b);
+    };
+    grid.appendChild(b);
+  });
+}
+
+function handleAcademicAnswer(isCorrect, btn) {
+  if (isCorrect) {
+    state.score += 10; playSound('correct'); if (btn) btn.classList.add('correct');
+    updateStatsUI(); setTimeout(nextGameQuestion, 900);
+  } else {
+    playSound('wrong'); if (btn) btn.classList.add('wrong');
+    state.lives--; updateStatsUI();
+    if (state.lives <= 0) {
+      setTimeout(() => { alert('ഗെയിം അവസാനിച്ചു! വീണ്ടും ശ്രമിക്കൂ.'); state.lives = 3; updateStatsUI(); showScreen('gamesMenuScreen'); }, 500);
+    }
+  }
+}
+
+let g2SelA = null, g2SelB = null, g2Matches = 0;
+function renderGame2() {
+  showScreen('game2Screen');
+  g2SelA = null; g2SelB = null; g2Matches = 0;
+  const colA = document.getElementById('g2ColA');
+  const colB = document.getElementById('g2ColB');
+  colA.innerHTML = ''; colB.innerHTML = '';
+
+  const shuffledPairs = [...G2_PAIRS].sort(() => Math.random() - 0.5);
+  const shuffledRights = [...G2_PAIRS].sort(() => Math.random() - 0.5);
+
+  shuffledPairs.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'match-item ml';
+    d.dataset.id = p.id;
+    d.innerText = p.left;
+    d.onclick = () => {
+      playSound('click');
+      document.querySelectorAll('#g2ColA .match-item').forEach(e => e.classList.remove('selected'));
+      d.classList.add('selected');
+      g2SelA = p.id; checkMatch2();
+    };
+    colA.appendChild(d);
+  });
+
+  shuffledRights.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'match-item ml';
+    d.dataset.id = p.id;
+    d.innerText = p.right;
+    d.onclick = () => {
+      speakMalayalam(p.right);
+      document.querySelectorAll('#g2ColB .match-item').forEach(e => e.classList.remove('selected'));
+      d.classList.add('selected');
+      g2SelB = p.id; checkMatch2();
+    };
+    colB.appendChild(d);
+  });
+}
+
+function checkMatch2() {
+  if (g2SelA && g2SelB) {
+    if (g2SelA === g2SelB) {
+      playSound('correct'); state.score += 15; g2Matches++;
+      const itemA = document.querySelector(`#g2ColA .match-item[data-id="${g2SelA}"]`);
+      const itemB = document.querySelector(`#g2ColB .match-item[data-id="${g2SelB}"]`);
+      if (itemA) itemA.classList.add('matched');
+      if (itemB) itemB.classList.add('matched');
+      g2SelA = null; g2SelB = null;
+      updateStatsUI();
+      if (g2Matches >= G2_PAIRS.length) {
+        state.stars += 1; updateStatsUI(); showRewardModal();
+      }
+    } else {
+      playSound('wrong'); state.lives--; updateStatsUI();
+      const itemA = document.querySelector('#g2ColA .selected');
+      const itemB = document.querySelector('#g2ColB .selected');
+      if (itemA) itemA.classList.add('wrong');
+      if (itemB) itemB.classList.add('wrong');
+      setTimeout(() => {
+        if (itemA) itemA.classList.remove('selected', 'wrong');
+        if (itemB) itemB.classList.remove('selected', 'wrong');
+        g2SelA = null; g2SelB = null;
+      }, 600);
+    }
+  }
+}
+
+// Quiz Controller
+function renderQuiz() {
+  state.quizSubmitted = false;
+  document.getElementById('quizScoreBox').style.display = 'none';
+  const c = document.getElementById('quizContainer');
+  c.innerHTML = '';
+  QUIZ_DATA.forEach((item, qi) => {
+    const qd = document.createElement('div');
+    qd.className = 'quiz-q';
+    qd.innerHTML = `
+      <div class="qtext ml">${qi + 1}. ${item.q}</div>
+      <div class="quiz-opts" id="qopts${qi}"></div>
+    `;
+    c.appendChild(qd);
+    const od = qd.querySelector('#qopts' + qi);
+    item.opts.forEach((opt, oi) => {
+      const b = document.createElement('div');
+      b.className = 'quiz-opt ml';
+      b.innerText = opt;
+      b.dataset.qi = qi; b.dataset.oi = oi;
+      b.onclick = () => {
+        if (state.quizSubmitted) return;
+        document.querySelectorAll(`#qopts${qi} .quiz-opt`).forEach(e => e.classList.remove('picked'));
+        b.classList.add('picked');
+        playSound('click');
+      };
+      od.appendChild(b);
+    });
+  });
+}
+
+function submitQuiz() {
+  if (state.quizSubmitted) return;
+  state.quizSubmitted = true;
+  let score = 0;
+  QUIZ_DATA.forEach((item, qi) => {
+    const opts = document.querySelectorAll(`#qopts${qi} .quiz-opt`);
+    const picked = document.querySelector(`#qopts${qi} .picked`);
+    if (picked && parseInt(picked.dataset.oi) === item.ans) score++;
+    opts.forEach(o => {
+      if (parseInt(o.dataset.oi) === item.ans) o.classList.add('correct-ans');
+      else if (o.classList.contains('picked')) o.classList.add('wrong-ans');
+    });
+  });
+  state.score += score * 10;
+  state.stars += (score >= 10 ? 2 : 1);
+  updateStatsUI();
+  const box = document.getElementById('quizScoreBox');
+  box.style.display = 'block';
+  box.innerHTML = `നിങ്ങളുടെ സ്കോർ: ${score} / ${QUIZ_DATA.length} ${score >= 10 ? '🌟 അതിവിശിഷ്ടം (Outstanding)!' : score >= 7 ? '👍 വളരെ നല്ലത് (Good)!' : 'തുടർപഠനം ആവശ്യമാണ്.'}`;
+  playSound(score >= 10 ? 'fanfare' : 'correct');
+}
+
+window.onload = function() {
+  updateStatsUI();
+  if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+};
+</script>
+</body>
+</html>
