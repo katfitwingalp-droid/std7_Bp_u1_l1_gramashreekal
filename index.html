@@ -21,7 +21,7 @@
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   --radius: 18px;
 }
-* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; overflow-wrap: break-word; word-break: break-word; }
 body {
   background: var(--bg-gradient);
   min-height: 100vh;
@@ -29,6 +29,7 @@ body {
   font-family: 'Anek Malayalam', 'Outfit', sans-serif;
   direction: ltr;
   text-align: left;
+  overflow-x: hidden;
 }
 .en { font-family: 'Outfit', sans-serif; }
 .ml { font-family: 'Anek Malayalam', sans-serif; }
@@ -613,6 +614,8 @@ function initAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 }
+document.addEventListener('touchstart', initAudio, { passive: true });
+document.addEventListener('click', initAudio, { passive: true });
 
 function playTone(freq, type, duration, delay=0) {
   if (!state.audioEnabled) return;
@@ -1308,6 +1311,7 @@ function submitQuiz() {
 
 window.onload = function() {
   updateStatsUI();
+  initAudio();
   if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
 };
 </script>
