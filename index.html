@@ -677,7 +677,7 @@ function getMalayalamVoice() {
 // words when given one very long sentence; shorter chunks read far more
 // clearly and accurately while keeping natural pauses.
 function splitIntoSpeechChunks(text) {
-  const rawParts = text.split(/(?<=[,;!?॥।])\s*/).filter(p => p.trim());
+  const rawParts = text.split(/(?<=[.,;!?])\s*/).filter(p => p.trim());
   const MAX_LEN = 80;
   const merged = [];
   let buffer = '';
