@@ -750,7 +750,7 @@ let state = {
 
 let audioCtx=null,chosenVoice=null;
 function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
-function playSound(type){if(!state.audioEnabled)return;initAudio();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);const now=audioCtx.currentTime;if(type==='correct'){osc.type='sine';osc.frequency.setValueAtTime(523.25,now);osc.frequency.exponentialRampToValueAtTime(783.99,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.4);osc.start(now);osc.stop(now+.4)}else if(type==='wrong'){osc.type='sawtooth';osc.frequency.setValueAtTime(220,now);osc.frequency.linearRampToValueAtTime(130,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.35);osc.start(now);osc.stop(now+.35)}else if(type==='click'){osc.type='triangle';osc.frequency.setValueAtTime(400,now);gain.gain.setValueAtTime(.15,now);gain.gain.exponentialRampToValueAtTime(.01,now+.08);osc.start(now);osc.stop(now+.08)}else if(type==='fanfare'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.setValueAtTime(f,now+i*.12);g.gain.setValueAtTime(.2,now+i*.12);g.gain.exponentialRampToValueAtTime(.01,now+i*.12+.3);o.start(now+i*.12);o.stop(now+i*.12+.3)})}}
+function playSound(type){if(!state.audioEnabled)return;try{initAudio();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);const now=audioCtx.currentTime;if(type==='correct'){osc.type='sine';osc.frequency.setValueAtTime(523.25,now);osc.frequency.exponentialRampToValueAtTime(783.99,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.4);osc.start(now);osc.stop(now+.4)}else if(type==='wrong'){osc.type='sawtooth';osc.frequency.setValueAtTime(220,now);osc.frequency.linearRampToValueAtTime(130,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.35);osc.start(now);osc.stop(now+.35)}else if(type==='click'){osc.type='triangle';osc.frequency.setValueAtTime(400,now);gain.gain.setValueAtTime(.15,now);gain.gain.exponentialRampToValueAtTime(.01,now+.08);osc.start(now);osc.stop(now+.08)}else if(type==='fanfare'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.setValueAtTime(f,now+i*.12);g.gain.setValueAtTime(.2,now+i*.12);g.gain.exponentialRampToValueAtTime(.01,now+i*.12+.3);o.start(now+i*.12);o.stop(now+i*.12+.3)})}}catch(e){}}
 function pickMalayalamVoice(){
   if(!('speechSynthesis'in window)) return null;
   const voices=window.speechSynthesis.getVoices()||[];
@@ -948,32 +948,67 @@ function speakViaSystem(text,onend){
 
 function speakText(text,onend){
   if(!state.audioEnabled){if(onend)onend();return}
-  if(typeof unlockAudio==='function') try{unlockAudio()}catch(e){}
+  try{unlockAudio()}catch(e){}
   stopSpeech();
   ttsStopped=false;
   var token=++ttsToken;
   var raw=String(text||'').trim();
   if(!raw){if(onend)onend();return}
-  var map=(typeof AUDIO_MAP==='object'&&AUDIO_MAP)?AUDIO_MAP:(window.AUDIO_MAP||{});
-  var bundled=map[raw];
   function done(){ if(token===ttsToken && onend) onend(); }
-  if(bundled){
-    playSrc(bundled).then(function(){ done(); }).catch(function(){
-      if(token!==ttsToken){if(onend)onend();return}
-      var chunks=splitMlChunks(raw,140);
-      playGoogleChunks(chunks,onend);
-    });
-    return;
-  }
+
+  // --- Native bridges (same as model + extra names used by ed-apps) ---
+  try{
+    if(window.Android){
+      if(typeof window.Android.speak==='function'){window.Android.speak(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+      if(typeof window.Android.speakText==='function'){window.Android.speakText(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+      if(typeof window.Android.tts==='function'){window.Android.tts(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+      if(typeof window.Android.speakMalayalam==='function'){window.Android.speakMalayalam(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+    }
+    if(window.AndroidInterface){
+      if(typeof window.AndroidInterface.speak==='function'){window.AndroidInterface.speak(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+      if(typeof window.AndroidInterface.speakText==='function'){window.AndroidInterface.speakText(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+    }
+    if(window.JSBridge && typeof window.JSBridge.speak==='function'){window.JSBridge.speak(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;}
+    if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.speak){
+      window.webkit.messageHandlers.speak.postMessage(raw); setTimeout(done, Math.min(22000, raw.length*75)); return;
+    }
+    if(window.ReactNativeWebView&&window.ReactNativeWebView.postMessage){
+      window.ReactNativeWebView.postMessage(JSON.stringify({type:'speak',text:raw,lang:'ml-IN'}));
+      setTimeout(done, Math.min(22000, raw.length*75)); return;
+    }
+    if(window.parent && window.parent!==window){
+      try{window.parent.postMessage({type:'speak',text:raw,lang:'ml-IN'},'*');}catch(e){}
+    }
+  }catch(e){}
+
   var chunks=splitMlChunks(raw,140);
-  if(!chunks.length){if(onend)onend();return}
-  if(typeof nativeSpeak==='function' && nativeSpeak(raw)){
-    var wait=Math.min(22000, raw.length*75);
-    setTimeout(function(){ if(token===ttsToken && onend) onend(); }, wait);
-    return;
+  if(!chunks.length){done();return}
+
+  // Prefer speechSynthesis in WebView (offline Malayalam voice on many devices)
+  // then Google TTS; model does Google first then system per-chunk on fail.
+  // Here: try system first if in app, else Google first.
+  var inApp = false;
+  try{
+    var ua=(navigator.userAgent||'').toLowerCase();
+    inApp = !!(window.Android||window.ReactNativeWebView||(window.webkit&&window.webkit.messageHandlers)||/; wv\)|webview/.test(ua));
+  }catch(e){}
+
+  // Path A: speechSynthesis (works offline in many WebViews with ml voice)
+  // Path B: Google TTS (needs network; model primary for browser)
+  if('speechSynthesis' in window){
+    var voices = [];
+    try{ voices = window.speechSynthesis.getVoices() || []; }catch(e){}
+    var hasMl = voices.some(function(v){ var l=(v.lang||'').toLowerCase(); return l.indexOf('ml')===0 || (v.name||'').toLowerCase().indexOf('malayalam')>=0; });
+    // If Malayalam voice exists OR we are in app, try system TTS first
+    if(hasMl || inApp){
+      speakViaSystem(raw, done);
+      return;
+    }
   }
-  playGoogleChunks(chunks,onend);
+  playGoogleChunks(chunks, done);
 }
+function speakMalayalam(text,onend){ speakText(text,onend); }
+
 function speakMalayalam(text,onend){ speakText(text,onend); }
 
 function toggleAudio(){
@@ -1111,29 +1146,32 @@ function showScreen(id) {
 }
 
 function playSingleStanza(idx) {
-  unlockAudio();
+  try{unlockAudio()}catch(e){}
   document.querySelectorAll('.poem-stanza').forEach(p => p.classList.remove('reading-now'));
   const nodes = document.querySelectorAll('.poem-stanza');
   if (nodes[idx]) nodes[idx].classList.add('reading-now');
-  speakMalayalam(POEM_STANZAS[idx], () => {
+  speakText(POEM_STANZAS[idx], () => {
     if (nodes[idx]) nodes[idx].classList.remove('reading-now');
   });
 }
 
 function renderPoem() {
   const container = document.getElementById('poemContainer');
+  if(!container) return;
   container.innerHTML = '';
   POEM_DISPLAY_LINES.forEach((stanzaHtml, idx) => {
     const div = document.createElement('div');
     div.className = 'poem-stanza';
-    div.innerHTML = `
-      <div class="poem-text ml">${stanzaHtml}</div>
-      <button class="mini-play" onclick="playSingleStanza(${idx})">🔊</button>
-    `;
+    const safe = String(POEM_STANZAS[idx]||'').replace(/"/g, '&quot;');
+    div.innerHTML = '<div class="poem-text ml">' + stanzaHtml + '</div>' +
+      '<button class="mini-play" data-t="' + safe + '" onclick="speakText(this.dataset.t)">🔊</button>';
     container.appendChild(div);
   });
   const btn = document.getElementById('readAllBtn');
-  if (btn) btn.innerText = '🔊 Read All / Stop';
+  if (btn) {
+    btn.innerText = '🔊 Read All / Stop';
+    btn.onclick = function(){ readAllPoem(); };
+  }
 }
 
 let isReadingPoem = false;
@@ -1147,7 +1185,7 @@ function readAllPoem() {
     return;
   }
   isReadingPoem = true;
-  unlockAudio();
+  try{unlockAudio()}catch(e){}
   if (btn) btn.innerText = '⏹ Stop Reading';
   const nodes = document.querySelectorAll('.poem-stanza');
   let cur = 0;
@@ -1160,7 +1198,7 @@ function readAllPoem() {
     }
     nodes.forEach(p => p.classList.remove('reading-now'));
     if (nodes[cur]) nodes[cur].classList.add('reading-now');
-    speakMalayalam(POEM_STANZAS[cur], () => {
+    speakText(POEM_STANZAS[cur], () => {
       cur++;
       next();
     });
