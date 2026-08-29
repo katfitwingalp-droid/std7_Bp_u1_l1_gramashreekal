@@ -21,7 +21,7 @@
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   --radius: 18px;
 }
-* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; overflow-wrap: break-word; word-break: break-word; }
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
 body {
   background: var(--bg-gradient);
   min-height: 100vh;
@@ -29,7 +29,6 @@ body {
   font-family: 'Anek Malayalam', 'Outfit', sans-serif;
   direction: ltr;
   text-align: left;
-  overflow-x: hidden;
 }
 .en { font-family: 'Outfit', sans-serif; }
 .ml { font-family: 'Anek Malayalam', sans-serif; }
@@ -172,6 +171,12 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  transition: all 0.25s ease;
+}
+.poem-stanza.reading-now {
+  background: linear-gradient(90deg, #FFF8E1, #E8F5E9);
+  box-shadow: 0 0 0 3px #43A047;
+  transform: scale(1.01);
 }
 .poem-text { font-size: 1.25rem; line-height: 2.2; font-weight: 600; color: #1B5E20; }
 .mini-play {
@@ -232,6 +237,41 @@ header {
   font-size: 1.15rem;
   line-height: 2;
   display: none;
+}
+.fillbox {
+  border: 2px solid #90A4AE;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 1.05rem;
+  font-family: 'Anek Malayalam', sans-serif;
+  font-weight: 700;
+  color: #BF360C;
+  min-width: 110px;
+  text-align: center;
+  background: #fff;
+}
+.check-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 22px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: 'Anek Malayalam', sans-serif;
+}
+.result-msg { font-weight: bold; margin-top: 8px; font-size: 1.02rem; }
+.write-box {
+  width: 100%;
+  min-height: 100px;
+  border: 2px dashed #90A4AE;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 1.1rem;
+  font-family: 'Anek Malayalam', sans-serif;
+  margin-bottom: 10px;
+  resize: vertical;
 }
 
 /* Games */
@@ -331,6 +371,34 @@ header {
   gap: 8px;
 }
 
+/* Unit Question Paper (printable exam sheet) */
+.unit-qp-paper {
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 28px 32px;
+  font-family: 'Anek Malayalam', 'Times New Roman', serif;
+  color: #111;
+  line-height: 1.7;
+}
+.unit-qp-paper .qp-school { text-align: center; font-size: 1.05rem; font-weight: bold; margin-bottom: 4px; }
+.unit-qp-paper .qp-title { text-align: center; font-size: 1.35rem; font-weight: bold; margin: 8px 0 4px; text-decoration: underline; }
+.unit-qp-paper .qp-meta {
+  display: flex; justify-content: space-between; flex-wrap: wrap;
+  font-size: 0.95rem; margin: 12px 0 18px; border-bottom: 2px solid #333; padding-bottom: 10px;
+}
+.unit-qp-paper .qp-act { margin-bottom: 22px; }
+.unit-qp-paper .qp-act-h {
+  font-weight: bold; font-size: 1.08rem; margin-bottom: 8px;
+  border-left: 4px solid #2E7D32; padding-left: 10px;
+}
+.unit-qp-paper .qp-act p, .unit-qp-paper .qp-act li { font-size: 1.05rem; margin-bottom: 6px; }
+.unit-qp-paper .qp-lines { border-bottom: 1px dotted #999; height: 22px; margin: 4px 0; }
+.unit-qp-paper .qp-footer {
+  text-align: center; margin-top: 24px; font-size: 0.9rem;
+  border-top: 1px solid #999; padding-top: 10px;
+}
+
 /* Quiz Container */
 .quiz-q { background: white; border-radius: 16px; padding: 20px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid var(--blue); }
 .quiz-q .qtext { font-size: 1.25rem; font-weight: 700; margin-bottom: 14px; line-height: 1.7; }
@@ -363,15 +431,19 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
 
 @media print {
   body { background: white; color: black; }
-  #app > header, .progress-container, .back-btn, .qp-action-bar, .reveal-model-btn, .icon-btn { display: none !important; }
+  #app > header, .progress-container, .back-btn, .qp-action-bar, .reveal-model-btn, .icon-btn, .no-print { display: none !important; }
   .screen { display: none !important; }
   #modelQPScreen { display: block !important; }
-  .content-box, .qp-card { box-shadow: none; border: 1px solid #000; width: 100%; max-width: 100%; padding: 10px; }
+  #unitQPScreen { display: block !important; }
+  #unitQPScreen .section-header { display: none !important; }
+  .content-box, .qp-card, .unit-qp-paper { box-shadow: none; border: 1px solid #000; width: 100%; max-width: 100%; padding: 10px; }
   .model-answer-box { display: block !important; border: 1px solid #555; }
+  .unit-qp-paper { border: none; padding: 0; }
 }
 </style>
 </head>
 <body>
+<audio id="ttsPlayer" playsinline webkit-playsinline preload="auto" style="display:none"></audio>
 <div id="app">
   <header>
     <div class="logo-area" onclick="showScreen('homeScreen')">
@@ -404,16 +476,17 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
       <div class="author-tag ml">Prepared by: Smart Vidhya</div>
       
       <div class="menu-grid">
-        <button class="btn-menu b1" onclick="showScreen('readingScreen')">📖 Recite & Listen (കവിതാപാരായണം)</button>
-        <button class="btn-menu b2" onclick="showScreen('vocabMatrixScreen')">📚 കാർഷിക പദാവലി & പര്യായങ്ങൾ</button>
-        <button class="btn-menu b6" onclick="showScreen('activitiesScreen')">📝 പാഠപുസ്തക പ്രവർത്തനങ്ങൾ & ചിന്തകൾ</button>
-        <button class="btn-menu b3" onclick="showScreen('gamesMenuScreen')">🎮 7-ാം ക്ലാസ് ലേണിംഗ് ഗെയിമുകൾ (6)</button>
-        <button class="btn-menu b4" onclick="showScreen('quizScreen')">❓ മൂല്യനിർണ്ണയ ക്വിസ് (12 ചോദ്യങ്ങൾ)</button>
-        <button class="btn-menu b10" onclick="showScreen('modelQPScreen')">📋 മാതൃകാ ചോദ്യപേപ്പർ (30 Marks)</button>
-        <button class="btn-menu b7" onclick="showScreen('discourseScreen')">✍️ സമഗ്ര ആസ്വാദനക്കുറിപ്പ്</button>
-        <button class="btn-menu b5" onclick="showScreen('authorScreen')">👤 കടത്തനാട്ട് മാധവി അമ്മ</button>
-        <button class="btn-menu b9" onclick="showScreen('extraPoemScreen')">🎵 താരതമ്യ കവിത (വൈലോപ്പിള്ളി)</button>
-        <button class="btn-menu b8" onclick="showScreen('instructionsScreen')">ℹ️ അധ്യാപക സഹായി</button>
+        <button class="btn-menu b1" onclick="showScreen('readingScreen')">📖 Read & Listen</button>
+        <button class="btn-menu b2" onclick="showScreen('vocabMatrixScreen')">📚 Vocabulary</button>
+        <button class="btn-menu b6" onclick="showScreen('activitiesScreen')">📝 Activities</button>
+        <button class="btn-menu b3" onclick="showScreen('gamesMenuScreen')">🎮 Games</button>
+        <button class="btn-menu b4" onclick="showScreen('quizScreen')">❓ Quiz</button>
+        <button class="btn-menu b10" onclick="showScreen('modelQPScreen')">📋 Model Question Paper</button>
+        <button class="btn-menu b18" onclick="showScreen('unitQPScreen')" style="background:linear-gradient(135deg,#00695C,#004D40)">📄 Unit Question Paper</button>
+        <button class="btn-menu b7" onclick="showScreen('discourseScreen')">✍️ Appreciation Note</button>
+        <button class="btn-menu b5" onclick="showScreen('authorScreen')">👤 About the Author</button>
+        <button class="btn-menu b9" onclick="showScreen('extraPoemScreen')">🎵 Compare Poem</button>
+        <button class="btn-menu b8" onclick="showScreen('instructionsScreen')">ℹ️ Instructions</button>
       </div>
     </div>
   </div>
@@ -421,7 +494,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Reading Screen -->
   <div id="readingScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">📖 Recite & Listen (കവിത ഈണത്തിൽ ചൊല്ലാം)</div>
+      <div class="section-title">📖 Read & Listen</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box">
@@ -430,7 +503,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
           <h3 class="ml" style="color:var(--primary); font-size:1.15rem;">വയലേലകളുടെ താളവും നാടൻ കാവ്യഭംഗിയും കേൾക്കാം</h3>
           <p class="ml" style="font-size:0.95rem; color:#555;">വരികൾ കേട്ട് കർഷകസ്ത്രീകളുടെ കരവിരുതും പ്രഭാതഭംഗിയും ആസ്വദിക്കുക</p>
         </div>
-        <button class="btn-menu b1 ml" style="padding:10px 24px; border-radius:25px;" onclick="readAllPoem()">🔊 മുഴുവൻ കവിത കേൾക്കുക</button>
+        <button class="btn-menu b1" id="readAllBtn" style="padding:10px 24px; border-radius:25px;" onclick="readAllPoem()">🔊 Read All / Stop</button>
       </div>
       <div id="poemContainer"></div>
     </div>
@@ -439,7 +512,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Vocab Matrix -->
   <div id="vocabMatrixScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">📚 കാർഷിക പദാവലി, പര്യായങ്ങൾ & വ്യാകരണ വിശകലനം</div>
+      <div class="section-title">📚 Vocabulary</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box">
@@ -451,7 +524,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Activities Screen -->
   <div id="activitiesScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">📝 പാഠപുസ്തക വിശകലനങ്ങൾ & ഉത്തരസൂചിക</div>
+      <div class="section-title">📝 Activities</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box" id="activitiesContainer"></div>
@@ -460,7 +533,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Games Menu Screen (Std 7) -->
   <div id="gamesMenuScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">🎮 7-ാം ക്ലാസ് ലേണിംഗ് ഗെയിമുകൾ</div>
+      <div class="section-title">🎮 Games</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="menu-grid" style="max-width:760px; margin:20px auto;">
@@ -520,7 +593,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Quiz Screen -->
   <div id="quizScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">❓ സമഗ്ര മൂല്യനിർണ്ണയ ക്വിസ് (12 Questions)</div>
+      <div class="section-title">❓ Quiz</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box">
@@ -533,7 +606,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Model Question Paper Screen -->
   <div id="modelQPScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">📋 മാതൃകാ പരീക്ഷാ ചോദ്യപേപ്പർ & Worksheet</div>
+      <div class="section-title">📋 Model Question Paper</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box">
@@ -545,10 +618,25 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
     </div>
   </div>
 
+  <!-- Unit Test / Unit Question Paper Screen -->
+  <div id="unitQPScreen" class="screen">
+    <div class="section-header">
+      <div class="section-title">📄 Unit Question Paper</div>
+      <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
+    </div>
+    <div class="content-box" style="max-width:900px">
+      <div class="qp-action-bar no-print" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px">
+        <button class="print-btn ml" onclick="printUnitQP()">🖨️ Print Question Paper</button>
+        <button class="print-btn ml" style="background:linear-gradient(135deg,#00695C,#004D40);" onclick="printUnitQP()">⬇️ Save as PDF (Print → Save)</button>
+      </div>
+      <div id="unitQPPaper" class="unit-qp-paper"></div>
+    </div>
+  </div>
+
   <!-- Discourses Screen -->
   <div id="discourseScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">✍️ സമഗ്ര ആസ്വാദനക്കുറിപ്പ് & കാവ്യവിചാരം</div>
+      <div class="section-title">✍️ Appreciation Note</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box" id="discourseContainer"></div>
@@ -557,7 +645,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Author Screen -->
   <div id="authorScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">👤 കടത്തനാട്ട് മാധവി അമ്മ (1909 - 1999)</div>
+      <div class="section-title">👤 About the Author</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box" id="authorContainer"></div>
@@ -566,7 +654,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Extra Poem Screen -->
   <div id="extraPoemScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">🎵 താരതമ്യ കവിത: വൈലോപ്പിള്ളി ശ്രീധരമേനോൻ</div>
+      <div class="section-title">🎵 Compare Poem</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box" id="extraPoemContainer"></div>
@@ -575,7 +663,7 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   <!-- Instructions Screen -->
   <div id="instructionsScreen" class="screen">
     <div class="section-header">
-      <div class="section-title ml">ℹ️ അധ്യാപക സഹായി</div>
+      <div class="section-title">ℹ️ Instructions</div>
       <button class="back-btn en" onclick="showScreen('homeScreen')">Back</button>
     </div>
     <div class="content-box">
@@ -609,13 +697,35 @@ let state = {
   quizSubmitted: false
 };
 
-let audioCtx = null;
+let audioCtx = null, chosenVoice = null, audioUnlocked = false;
+let ttsAudio = null, ttsToken = 0, ttsStopped = false;
+
 function initAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 }
-document.addEventListener('touchstart', initAudio, { passive: true });
-document.addEventListener('click', initAudio, { passive: true });
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  try {
+    initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  } catch(e) {}
+  try {
+    const a = document.getElementById('ttsPlayer');
+    if (a) { a.muted = true; a.play().then(() => { a.pause(); a.muted = false; a.currentTime = 0; }).catch(()=>{}); }
+  } catch(e) {}
+  if ('speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.getVoices();
+      pickVoice();
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+    } catch(e) {}
+  }
+}
+document.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
+document.addEventListener('click', unlockAudio, true);
 
 function playTone(freq, type, duration, delay=0) {
   if (!state.audioEnabled) return;
@@ -653,71 +763,107 @@ function playSound(type) {
   }
 }
 
-let cachedMlVoices = [];
-function refreshMlVoices() {
-  if ('speechSynthesis' in window) cachedMlVoices = window.speechSynthesis.getVoices();
+function pickMalayalamVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  const score = v => {
+    const n = (v.name || '').toLowerCase(), l = (v.lang || '').toLowerCase();
+    if (!l.startsWith('ml')) return 0;
+    if (/neural|natural|online|google|microsoft|sobhana|midhun|premium|samsung/.test(n)) return 5;
+    if (l === 'ml-in' || l === 'ml_in') return 4;
+    return 3;
+  };
+  let best = null, bestS = 0;
+  voices.forEach(v => { const s = score(v); if (s > bestS) { best = v; bestS = s; } });
+  return bestS >= 3 ? best : null;
 }
+function pickVoice() { chosenVoice = pickMalayalamVoice(); return chosenVoice; }
 if ('speechSynthesis' in window) {
-  refreshMlVoices();
-  window.speechSynthesis.onvoiceschanged = refreshMlVoices;
+  try { window.speechSynthesis.onvoiceschanged = pickVoice; } catch(e) {}
+  pickVoice();
 }
 
-function getMalayalamVoice() {
-  const voices = cachedMlVoices.length ? cachedMlVoices : (('speechSynthesis' in window) ? window.speechSynthesis.getVoices() : []);
-  if (!voices.length) return null;
-  return voices.find(v => v.lang && v.lang.toLowerCase() === 'ml-in')
-    || voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ml') && v.localService)
-    || voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ml'))
-    || voices.find(v => v.name && v.name.toLowerCase().includes('malayalam'))
-    || null;
-}
-
-// Splits long Malayalam text (e.g. whole poem stanzas) into smaller, natural,
-// punctuation-based chunks. Many speech engines slur, skip, or mispronounce
-// words when given one very long sentence; shorter chunks read far more
-// clearly and accurately while keeping natural pauses.
 function splitIntoSpeechChunks(text) {
-  const rawParts = text.split(/(?<=[.,;!?])\s*/).filter(p => p.trim());
-  const MAX_LEN = 80;
+  const clean = String(text || '').replace(/\s+/g, ' ').trim();
+  if (!clean) return [];
+  const MAX_LEN = 90;
+  if (clean.length <= MAX_LEN) return [clean];
+  const rawParts = clean.split(/(?<=[,;!?॥।\n])\s*/).filter(p => p.trim());
   const merged = [];
   let buffer = '';
   rawParts.forEach(p => {
     const candidate = (buffer ? buffer + ' ' : '') + p;
-    if (candidate.trim().length <= MAX_LEN) {
-      buffer = candidate;
-    } else {
+    if (candidate.trim().length <= MAX_LEN) buffer = candidate;
+    else {
       if (buffer.trim()) merged.push(buffer.trim());
       buffer = p;
     }
   });
   if (buffer.trim()) merged.push(buffer.trim());
-  return merged.length ? merged : [text];
+  return merged.length ? merged : [clean];
 }
 
-function speakMalayalam(text, onend) {
-  if (!state.audioEnabled) return;
-  if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
+function googleTtsUrl(text) {
+  return 'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ml&q=' + encodeURIComponent(text);
+}
 
-  window.speechSynthesis.cancel();
-  const mlVoice = getMalayalamVoice();
-  const chunks = splitIntoSpeechChunks(text);
+function getPlayer() {
+  let a = document.getElementById('ttsPlayer');
+  if (!a) {
+    a = document.createElement('audio');
+    a.id = 'ttsPlayer';
+    a.setAttribute('playsinline', 'true');
+    a.setAttribute('webkit-playsinline', 'true');
+    a.style.display = 'none';
+    document.body.appendChild(a);
+  }
+  a.playsInline = true;
+  a.preload = 'auto';
+  return a;
+}
+
+function playGoogleChunks(chunks, onend) {
+  const token = ttsToken;
+  let i = 0;
+  function next() {
+    if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
+    if (i >= chunks.length) { if (onend) onend(); return; }
+    const a = getPlayer();
+    ttsAudio = a;
+    const src = googleTtsUrl(chunks[i]);
+    let done = false;
+    const to = setTimeout(() => { if (!done) { done = true; i++; next(); } }, 12000);
+    function finish(ok) {
+      if (done) return;
+      done = true; clearTimeout(to);
+      i++;
+      next();
+    }
+    a.onended = () => finish(true);
+    a.onerror = () => finish(false);
+    try { a.pause(); } catch(e) {}
+    a.src = src;
+    const p = a.play();
+    if (p && p.catch) p.catch(() => finish(false));
+  }
+  next();
+}
+
+function speakViaSynth(chunks, onend) {
+  if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
+  const mlVoice = chosenVoice || pickVoice();
   let idx = 0;
   let watchdogTimer = null;
-
-  function clearWatchdog() {
-    if (watchdogTimer) { clearInterval(watchdogTimer); watchdogTimer = null; }
-  }
-
+  function clearWatchdog() { if (watchdogTimer) { clearInterval(watchdogTimer); watchdogTimer = null; } }
   function speakChunk() {
     clearWatchdog();
-    if (idx >= chunks.length) { if (onend) onend(); return; }
+    if (ttsStopped || idx >= chunks.length) { if (onend) onend(); return; }
     const utterance = new SpeechSynthesisUtterance(chunks[idx]);
     utterance.lang = 'ml-IN';
     utterance.rate = 0.78;
     utterance.pitch = 1;
     utterance.volume = 1;
     if (mlVoice) utterance.voice = mlVoice;
-
     let finished = false;
     const finishChunk = () => {
       if (finished) return;
@@ -728,43 +874,54 @@ function speakMalayalam(text, onend) {
     };
     utterance.onend = finishChunk;
     utterance.onerror = finishChunk;
-
-    // Watchdog: many in-app/embedded WebViews (used by internal apps) silently
-    // pause or kill speechSynthesis without ever firing onend/onerror - the
-    // reading just appears to stop midway. This checks every 3s: if speech
-    // got paused (e.g. app briefly lost focus) it resumes it; if the engine
-    // seems stuck with nothing happening it nudges pause/resume (the usual
-    // fix for the ~15s WebView cutoff bug); if it stays stuck it moves on to
-    // the next chunk instead of hanging forever.
     let stuckTicks = 0;
     watchdogTimer = setInterval(() => {
       if (finished) return;
       const synth = window.speechSynthesis;
-      if (synth.paused) {
-        synth.resume();
-        stuckTicks = 0;
-      } else if (!synth.speaking && !synth.pending) {
-        stuckTicks++;
-        if (stuckTicks >= 2) finishChunk();
-      } else {
-        stuckTicks = 0;
-        synth.pause();
-        synth.resume();
-      }
+      if (synth.paused) { synth.resume(); stuckTicks = 0; }
+      else if (!synth.speaking && !synth.pending) { stuckTicks++; if (stuckTicks >= 2) finishChunk(); }
+      else { stuckTicks = 0; try { synth.pause(); synth.resume(); } catch(e) {} }
     }, 3000);
-
     window.speechSynthesis.speak(utterance);
   }
   speakChunk();
 }
 
-// If the host app (internal WebView) briefly backgrounds/foregrounds this
-// page, some engines auto-pause speech and never auto-resume it. Nudge it
-// back on whenever the page becomes visible/focused again.
+function stopSpeech() {
+  ttsStopped = true;
+  ttsToken++;
+  try {
+    const a = document.getElementById('ttsPlayer') || ttsAudio;
+    if (a) { a.pause(); a.removeAttribute('src'); if (a.load) a.load(); }
+  } catch(e) {}
+  ttsAudio = null;
+  if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e) {} }
+}
+
+function speakMalayalam(text, onend) {
+  if (!state.audioEnabled) { if (onend) onend(); return; }
+  unlockAudio();
+  stopSpeech();
+  ttsStopped = false;
+  const token = ++ttsToken;
+  const raw = String(text || '').trim();
+  if (!raw) { if (onend) onend(); return; }
+  const chunks = splitIntoSpeechChunks(raw);
+  if (!chunks.length) { if (onend) onend(); return; }
+
+  // Model-style: always prefer Google TTS for clear Malayalam pronunciation
+  playGoogleChunks(chunks, () => {
+    if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
+    // Fallback to speechSynthesis if Google produced no usable audio
+    // (playGoogleChunks already advances per-chunk on error)
+    if (onend) onend();
+  });
+}
+// Alias so games / other code can call speakText like the model
+function speakText(text, onend) { speakMalayalam(text, onend); }
+
 if ('speechSynthesis' in window) {
-  const resumeIfPaused = () => {
-    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-  };
+  const resumeIfPaused = () => { if (window.speechSynthesis.paused) window.speechSynthesis.resume(); };
   document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeIfPaused(); });
   window.addEventListener('focus', resumeIfPaused);
   window.addEventListener('pageshow', resumeIfPaused);
@@ -773,7 +930,7 @@ if ('speechSynthesis' in window) {
 function toggleAudio() {
   state.audioEnabled = !state.audioEnabled;
   document.getElementById('btnAudioToggle').innerText = state.audioEnabled ? '🔊' : '🔇';
-  if (!state.audioEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (!state.audioEnabled) stopSpeech();
 }
 
 function toggleFullscreen() {
@@ -887,7 +1044,8 @@ const G6_DATA = [
 
 function showScreen(id) {
   playSound('click');
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  stopSpeech();
+  isReadingPoem = false;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(id);
   if (target) target.classList.add('active');
@@ -897,12 +1055,21 @@ function showScreen(id) {
   if (id === 'activitiesScreen') renderActivities();
   if (id === 'quizScreen') renderQuiz();
   if (id === 'modelQPScreen') renderModelQP();
+  if (id === 'unitQPScreen') renderUnitQP();
   if (id === 'discourseScreen') renderDiscourses();
   if (id === 'authorScreen') renderAuthor();
   if (id === 'extraPoemScreen') renderExtraPoem();
 }
 
-function playSingleStanza(idx) { speakMalayalam(POEM_STANZAS[idx]); }
+function playSingleStanza(idx) {
+  unlockAudio();
+  document.querySelectorAll('.poem-stanza').forEach(p => p.classList.remove('reading-now'));
+  const nodes = document.querySelectorAll('.poem-stanza');
+  if (nodes[idx]) nodes[idx].classList.add('reading-now');
+  speakMalayalam(POEM_STANZAS[idx], () => {
+    if (nodes[idx]) nodes[idx].classList.remove('reading-now');
+  });
+}
 
 function renderPoem() {
   const container = document.getElementById('poemContainer');
@@ -916,22 +1083,34 @@ function renderPoem() {
     `;
     container.appendChild(div);
   });
+  const btn = document.getElementById('readAllBtn');
+  if (btn) btn.innerText = '🔊 Read All / Stop';
 }
 
 let isReadingPoem = false;
 function readAllPoem() {
+  const btn = document.getElementById('readAllBtn');
   if (isReadingPoem) {
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopSpeech();
     isReadingPoem = false;
+    document.querySelectorAll('.poem-stanza').forEach(p => p.classList.remove('reading-now'));
+    if (btn) btn.innerText = '🔊 Read All / Stop';
     return;
   }
   isReadingPoem = true;
+  unlockAudio();
+  if (btn) btn.innerText = '⏹ Stop Reading';
+  const nodes = document.querySelectorAll('.poem-stanza');
   let cur = 0;
   function next() {
     if (cur >= POEM_STANZAS.length || !isReadingPoem) {
       isReadingPoem = false;
+      nodes.forEach(p => p.classList.remove('reading-now'));
+      if (btn) btn.innerText = '🔊 Read All / Stop';
       return;
     }
+    nodes.forEach(p => p.classList.remove('reading-now'));
+    if (nodes[cur]) nodes[cur].classList.add('reading-now');
     speakMalayalam(POEM_STANZAS[cur], () => {
       cur++;
       next();
@@ -964,8 +1143,25 @@ function renderActivities() {
   const container = document.getElementById('activitiesContainer');
   container.innerHTML = `
     <div class="activity-block">
-      <div class="activity-heading ml">1. കാവ്യവിചാരവും വിശകലനവും</div>
-      <div class="activity-desc ml"><b>ചോദ്യം:</b> “മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം” - കൃഷി ഒരു ഉത്കൃഷ്ടമായ കലാസൃഷ്ടിയാകുന്നത് എങ്ങനെ? വിശകലനം ചെയ്യുക.</div>
+      <div class="activity-heading ml">1. കവിത വായിച്ച് ആശയങ്ങൾ ചർച്ച ചെയ്യാം</div>
+      <div class="activity-desc ml">
+        <b>• ‘വിശ്വവിദ്യാലയം’ എന്നതുകൊണ്ട് കവി ഉദ്ദേശിക്കുന്നത് എന്ത്?</b><br>
+        <b>• പ്രഭാതത്തെ എങ്ങനെയൊക്കെയാണ് കവി വർണ്ണിച്ചിരിക്കുന്നത്?</b><br>
+        <b>• കർഷകസ്ത്രീകളെ ‘ഗ്രാമശ്രീകൾ’ എന്ന് വിശേഷിപ്പിക്കുന്നതിന്റെ കാരണങ്ങൾ എന്തെല്ലാം?</b><br>
+        <b>• “സുന്ദരാലേഖ്യം നീ കേരളമേ” എന്ന് കവി പറയുന്നതെന്തുകൊണ്ട്?</b>
+      </div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns0', this)">💡 മാതൃകാ ഉത്തരങ്ങൾ</button>
+      <div class="model-answer-box ml" id="actAns0">
+        <b>1. വിശ്വവിദ്യാലയം:</b> പ്രകൃതിയാകുന്ന മഹാപാഠശാല. കർഷകസ്ത്രീകൾക്ക് അവരുടെ നൈപുണ്യം ലഭിച്ചത് ഔപചാരിക വിദ്യാഭ്യാസത്തിൽ നിന്നല്ല, പ്രകൃതിയുടെ അനുഭവപാഠശാലയിൽ നിന്നാണ്.<br>
+        <b>2. പ്രഭാതവർണ്ണന:</b> ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റ് ആകാശം ചോന്നുനിൽക്കുന്നു; മണ്ണിൽ പുതുമണം പൊങ്ങുന്നു; പെണ്ണുങ്ങൾ അന്യോന്യം ചൊല്ലിവിളിക്കുന്നു.<br>
+        <b>3. ഗ്രാമശ്രീകൾ:</b> നാടിന്റെ ഐശ്വര്യവും അന്നവും സൃഷ്ടിക്കുന്ന, അധ്വാനത്തിന്റെ മഹത്വം ഉയർത്തുന്ന കർഷകസ്ത്രീകളായതിനാൽ.<br>
+        <b>4. സുന്ദരാലേഖ്യം:</b> പച്ചിലക്കൂട്ടവും പാടവും മാടവും മഴയും ചേർന്ന് കേരളം ഒരു മനോഹര ചിത്രം പോലെ തോന്നിപ്പിക്കുന്നതിനാൽ.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">2. കാവ്യവിചാരവും വിശകലനവും</div>
+      <div class="activity-desc ml"><b>ചോദ്യം:</b> “മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം” - കൃഷി ഒരു ഉത്കൃഷ്ടമായ കലാസൃഷ്ടിയാകുന്നത് എങ്ങനെ? വിശകലനം ചെയ്ത് കുറിപ്പ് തയ്യാറാക്കുക.</div>
       <button class="reveal-model-btn ml" onclick="revealModel('actAns1', this)">💡 മാതൃകാ വിശകലനം</button>
       <div class="model-answer-box ml" id="actAns1">
         <b>വിശകലന സൂചിക:</b><br>
@@ -974,7 +1170,176 @@ function renderActivities() {
         3. <b>നിസ്വാർത്ഥമായ അധ്വാനം:</b> സ്വന്തം തൂലിക കൊണ്ട് എഴുതുന്ന കവിതയെക്കാൾ വിശപ്പകറ്റുന്ന അന്നം വിളയിക്കുന്ന കർഷകരുടെ വിരൽത്തുമ്പുകളാണ് നാടിന്റെ നന്മകൾ സൃഷ്ടിക്കുന്നത്.
       </div>
     </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">3. ഈണം കണ്ടെത്താം, ചൊല്ലാം</div>
+      <div class="activity-desc ml">വ്യക്തിഗതമായി കവിതയ്ക്ക് ഈണം കണ്ടെത്തുക. ഗ്രൂപ്പിൽ അവതരിപ്പിച്ച ഉപയോഗയോഗ്യമായ ഈണം കണ്ടെത്തി സംഘമായി ചൊല്ലുക.</div>
+      <button class="btn-menu b1 ml" style="padding:10px 20px; border-radius:20px; margin-top:8px;" onclick="readAllPoem()">🔊 മുഴുവൻ കവിത ഈണത്തിൽ കേൾക്കുക</button>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">4. താരതമ്യം ചെയ്ത് കുറിപ്പ് തയ്യാറാക്കാം</div>
+      <div class="activity-desc ml">
+        “ഉർവിയേപ്പുഷ്പിപ്പിക്കും കലപോൽ നമുക്കത്ര<br>
+        നിർവൃതികരം സർഗവ്യാപാരമുണ്ടോ മന്നിൽ?” — വൈലോപ്പിള്ളി<br><br>
+        ഈ വരികളുടെ ആശയവും ‘ഗ്രാമശ്രീകൾ’ എന്ന കവിതയുടെ ആശയവും താരതമ്യം ചെയ്ത് കുറിപ്പ് തയ്യാറാക്കുക.
+      </div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns2', this)">💡 മാതൃകാ താരതമ്യക്കുറിപ്പ്</button>
+      <div class="model-answer-box ml" id="actAns2">
+        വൈലോപ്പിള്ളി ഭൂമിയെ പുഷ്പിപ്പിക്കുന്ന കൃഷിയേക്കാൾ വലിയ സർഗാത്മക സൃഷ്ടി വേറെയില്ലെന്ന് പറയുന്നു. കടത്തനാട്ട് മാധവി അമ്മയും കർഷകസ്ത്രീകളുടെ അധ്വാനത്തെ ഉത്കൃഷ്ട കലാസൃഷ്ടിയായി കാണുന്നു. രണ്ടു കവിതകളിലും കൃഷി ഒരു സർഗ്ഗാത്മക പ്രവർത്തിയായി ഉയർത്തപ്പെടുന്നു. പ്രകൃതിയോടുള്ള താദാത്മ്യവും അധ്വാനത്തിന്റെ മഹത്വവും ഇവിടെ പൊതുവായ ആശയങ്ങളാണ്.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">5. പ്രയോഗഭംഗി കണ്ടെത്താം, വിശദീകരിക്കാം</div>
+      <div class="activity-desc ml">
+        “ഉണ്ണിക്കതിരോന്റെ പൊൻനുകപ്പാടേറ്റു വിണ്ണിൻ വിളിപ്പാടും ചോന്നിതല്ലോ” — ഈ വരികളുടെ പ്രയോഗഭംഗി കണ്ടെത്തി വിശദീകരിക്കുക. ഇതുപോലെയുള്ള കൂടുതൽ വരികൾ കണ്ടെത്തി ഗ്രൂപ്പിൽ ചർച്ച ചെയ്ത് വിശദീകരിക്കുക.
+      </div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns3', this)">💡 മാതൃകാ വിശദീകരണം</button>
+      <div class="model-answer-box ml" id="actAns3">
+        <b>പ്രയോഗഭംഗി:</b> സൂര്യനെ ‘ഉണ്ണിക്കതിരോൻ’ എന്നും സൂര്യകിരണങ്ങളെ ‘പൊൻനുകപ്പാട്’ എന്നും ആകാശത്തെ ‘വിണ്ണ്’ എന്നും വിളിച്ച് കാവ്യാത്മകമായി ചിത്രീകരിച്ചിരിക്കുന്നു. പ്രഭാതത്തിന്റെ ചുവപ്പ് നിറത്തെ ‘ചോന്നു’ എന്ന ക്രിയയിലൂടെ ജീവസ്സുറ്റതാക്കുന്നു. രൂപകാലങ്കാരവും ഉപമയും ഒരുമിച്ച് പ്രയോഗിച്ച് ദൃശ്യഭംഗി വർദ്ധിപ്പിച്ചിരിക്കുന്നു.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">6. വാക്കുചിത്രത്തിൽ നിന്ന് വർണ്ണചിത്രത്തിലേക്ക്</div>
+      <div class="activity-desc ml">കവിതയിൽ ധാരാളം വാക്കുചിത്രങ്ങളുണ്ടല്ലോ. അവ കണ്ടെത്തി വരകളും വർണ്ണങ്ങളും ചേർന്ന ചിത്രങ്ങളാക്കി പ്രദർശനം സംഘടിപ്പിക്കുക.</div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">7. ആധാരപദം പൂർത്തിയാക്കാം, ആസ്വാദനം എഴുതാം</div>
+      <div class="activity-desc ml">കോളങ്ങളിൽ ആസ്വാദനാംശങ്ങൾ എഴുതുക. അവയെ അടിസ്ഥാനമാക്കി കവിതയ്ക്ക് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക. (പ്രയോഗഭംഗി, കവിതയുടെ പ്രധാനാശയങ്ങൾ, ഭാഷാഭംഗി, ചിത്രങ്ങൾ തുടങ്ങിയ തലങ്ങളിൽ എഡിറ്റ് ചെയ്യുക.)</div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns4', this)">💡 മാതൃകാ ആസ്വാദനക്കുറിപ്പ്</button>
+      <div class="model-answer-box ml" id="actAns4">
+        കേരളത്തിന്റെ കാർഷിക പാരമ്പര്യത്തെയും അധ്വാനിക്കുന്ന കർഷകസ്ത്രീകളുടെ മാഹാത്മ്യത്തെയും ഹൃദയസ്പർശിയായി ആവിഷ്കരിക്കുന്ന മനോഹര കവിതയാണ് ‘ഗ്രാമശ്രീകൾ’. അതിരാവിലെ ഉഴുതുമറിച്ച പാടത്തിറങ്ങി ഞാറുനടുന്ന സ്ത്രീകളെ നാടിന്റെ ഐശ്വര്യമായ ‘ഗ്രാമശ്രീ’കളായാണ് കവയിത്രി കാണുന്നത്. ഉണ്ണിക്കതിരോന്റെ പൊൻകിരണങ്ങളേറ്റു ചുവക്കുന്ന ആകാശവും, ഞാറുനട്ട പാടം നീലപ്പട്ടുവിരിച്ചതുപോലെ കാണപ്പെടുന്നതും കവിതയുടെ ദൃശ്യഭംഗി കൂട്ടുന്നു. എഴുത്തുകാരിയുടെ തൂലികയെക്കാൾ നാടിന് നന്മ പകരുന്നത് കർഷകരുടെ വിരൽത്തുമ്പുകളാണെന്ന പ്രഖ്യാപനം അധ്വാനത്തിന്റെ മഹത്വം വിളിച്ചോതുന്നു.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">8. പഴഞ്ചൊല്ലുകളും നാടൻപാട്ടുകളും</div>
+      <div class="activity-desc ml">
+        • അക്ഷരമുദ്രകൾ ശേഖരിച്ച് ക്ലാസിൽ പഴഞ്ചൊല്ലുകളി നടത്തുക.<br>
+        • ആക്ഷരമുദ്രയോടി നമസ്കരിച്ച നാടൻപാട്ടുകൾ ശേഖരിച്ച് പഞ്ചാംഗപാട്ട് സംഘടിപ്പിക്കുക. പഞ്ചാംഗപാട്ടിന്റെ വീഡിയോ ക്ലാസ് തല നാമയുവതുപ്പിൽ പങ്കുവെക്കുക.
+      </div>
+    </div>
+
+    <hr style="margin:24px 0; border:none; border-top:3px dashed #81C784;">
+    <h2 class="ml" style="color:var(--primary); text-align:center; margin-bottom:16px;">🌾 കുമ്മാട്ടി — പഠനപ്രവർത്തനങ്ങൾ</h2>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">9. പഠിപ്പിച്ചതും കണ്ടെത്താം</div>
+      <div class="activity-desc ml">
+        പാഠഭാഗം വായിച്ച് കണ്ടെത്തിയ സവിശേഷതകൾ പഠിപ്പിച്ച് കുറിപ്പ് തയ്യാറാക്കുക.<br>
+        <b>സൂചനകൾ:</b><br>
+        • എന്താണ് കുമ്മാട്ടിക്കളി?<br>
+        • കുമ്മാട്ടിക്കളിയുടെ വേഷസവിശേഷതകൾ എന്തെല്ലാം?<br>
+        • കുമ്മാട്ടിക്കളിയുടെ അവതരണശൈലി എങ്ങനെയുള്ളതാണ്?
+      </div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns5', this)">💡 മാതൃകാ കുറിപ്പ്</button>
+      <div class="model-answer-box ml" id="actAns5">
+        <b>കുമ്മാട്ടിക്കളി:</b> തൃശൂർ ജില്ലയിലും പരിസരങ്ങളിലും ഓണക്കാലത്ത് ആചാരവിധിപ്രകാരം അവതരിപ്പിക്കുന്ന നാടോടിക്കലയാണ്. കുറഞ്ഞ, പ്രാദേശികകലാമുഹൂർത്തത്തിൽ മനുഷ്യരും തന്മാടുകളും നാമയാർ അവതരിപ്പിച്ചിരുന്നതാണ്. ഇന്ന് എല്ലാ ജാതിക്കാരും പങ്കെടുക്കുന്ന കൂട്ടായ്മയുള്ള ഉത്സവമായി മാറിയിരിക്കുന്നു.<br>
+        <b>വേഷം:</b> തലയിൽ മുഖാവരണം, കാലിലും കൈയിലും മൂന്ന് കെട്ട്, മാറിൽ ചുവപ്പ്, അയലിൽ ഓരോ കെട്ട്. പന്നിക്ക് വാഴച്ചുവപ്പ് വേഷം.<br>
+        <b>അവതരണം:</b> ആരാമായുടെ നേതൃത്വത്തിൽ പൊയ്മുഖങ്ങൾ ഒരുക്കുക, ചായം കൊടുക്കുക, വേഷംകെട്ടുക, ക്ഷേത്രത്തിൽ നമസ്കരിച്ച് കളി ആരംഭിക്കുക.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">10. വിശകലനം ചെയ്യാം, കുറിപ്പ് തയ്യാറാക്കാം</div>
+      <div class="activity-desc ml">കാർഷികോത്സവങ്ങളും നാടോടിക്കലകളും ജനതാമതി നിലനിർത്താൻ സഹായിക്കുന്നതെങ്ങനെ? പാഠഭാഗവും മറ്റു സമർത്ഥനങ്ങളും വിശകലനം ചെയ്ത് കുറിപ്പ് തയ്യാറാക്കുക.</div>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns6', this)">💡 മാതൃകാ വിശകലനം</button>
+      <div class="model-answer-box ml" id="actAns6">
+        കാർഷികോത്സവങ്ങളും നാടോടിക്കലകളും ഗ്രാമീണ സംസ്കാരത്തിന്റെ തുടർച്ച ഉറപ്പാക്കുന്നു. കുമ്മാട്ടി പോലുള്ള കലാരൂപങ്ങൾ കൂട്ടായ്മയും സഹകരണവും വളർത്തുന്നു. യുവതലമുറയ്ക്ക് പാരമ്പര്യം പകർന്നുകൊടുക്കാൻ ഇവ സഹായിക്കുന്നു. കാർഷിക ജീവിതവുമായി ബന്ധപ്പെട്ട ആചാരങ്ങൾ മണ്ണിനോടുള്ള ബന്ധം നിലനിർത്തുന്നു.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">11. കാർഷികോത്സവം / നാടോടിക്കല സംഘടിപ്പിക്കാം</div>
+      <div class="activity-desc ml">
+        നമ്മുടെ നാടിലുള്ള കാർഷികോത്സവങ്ങളും നാടോടിക്കലകളും (ഉദാ: കാലവല).<br>
+        നാടിലെ കർഷകരുടെ സഹായത്തോടെ സ്കൂളിൽ ഒരു കാർഷികോത്സവം/നാടോടിക്കല സംഘടിപ്പിക്കുക.<br>
+        പ്രഖ്യാപനത്തിന് നോട്ടീസ്, കാഴ്ചവിവരം, പോസ്റ്റർ, ബാനർ എന്നിവ തയ്യാറാക്കുക.
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">12. വിവരണം തയ്യാറാക്കാം</div>
+      <div class="activity-desc ml">‘തങ്ങളുടെ കണ്ട കാർഷികോത്സവം/നാടോടിക്കല’ എന്നതിനെ അടിസ്ഥാനമാക്കി ഒരു വിവരണം തയ്യാറാക്കുക.</div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">13. ഡോക്യുമെന്ററി തയ്യാറാക്കാം</div>
+      <div class="activity-desc ml">നമ്മുടെ നാടിലെ ആചാരങ്ങളും അനുഭവവിവരങ്ങളും ഉൾപ്പെടുത്തി ഡോക്യുമെന്ററി തയ്യാറാക്കാം. അനുയോജ്യമായ ശബ്ദവിവരണവും ഉൾപ്പെടുത്തുക.</div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">14. വിട്ടുപോയ ഭാഗം പൂരിപ്പിക്കുക (Fill in the blanks)</div>
+      <div class="activity-desc ml">
+        <p class="ml" style="margin-bottom:8px;">1. ഒന്നു കുളിർന്നു നനഞ്ഞു ഹാ,യെന്തൊരു <input class="fillbox" id="fb1" placeholder="......"> നീ, കേരളമേ!</p>
+        <p class="ml" style="margin-bottom:8px;">2. ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ <input class="fillbox" id="fb2" placeholder="......"> നെയ്തെടുപ്പൂ!!</p>
+        <p class="ml" style="margin-bottom:8px;">3. ‘ഗ്രാമശ്രീകൾ’ <input class="fillbox" id="fb3" placeholder="......"> എന്ന കവയിത്രിയുടെ രചനയാണ്.</p>
+        <p class="ml" style="margin-bottom:8px;">4. ഉണ്ണി<input class="fillbox" id="fb4" placeholder="......">ന്റെ പൊൻനുകപ്പാടേറ്റു വിണ്ണിൻ വിളിപ്പാടും ചോന്നിതല്ലോ.</p>
+        <button class="check-btn ml" onclick="checkFillBlanks()">✓ Check Answers</button>
+        <div class="result-msg" id="fbResult"></div>
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">15. പര്യായം / വിപരീതം യോജിപ്പിക്കുക</div>
+      <div class="activity-desc ml">
+        <table class="custom-table ml" style="margin-top:8px;">
+          <tr><th>പദം</th><th>പര്യായം</th><th>വിപരീതം</th></tr>
+          <tr><td>ഉർവി</td><td>ഭൂമി / പൃഥ്വി / ധരണി</td><td>—</td></tr>
+          <tr><td>കതിരോൻ</td><td>സൂര്യൻ / ഭാസ്കരൻ</td><td>—</td></tr>
+          <tr><td>മഞ്ജുളം</td><td>സുന്ദരം / കോമളം</td><td>കുരൂപം / വിരസം</td></tr>
+          <tr><td>കുന്തളം</td><td>മുടി / കേശം</td><td>—</td></tr>
+          <tr><td>നിർവൃതി</td><td>പരമാനന്ദം / സംതൃപ്തി</td><td>ദുഃഖം / അസംതൃപ്തി</td></tr>
+        </table>
+        <p class="ml" style="margin-top:12px;"><b>ചോദ്യം:</b> ‘മഞ്ജുളം’ എന്ന പദത്തിന്റെ വിപരീതം എഴുതുക. ‘ഉർവി’യുടെ രണ്ട് പര്യായങ്ങൾ എഴുതുക.</p>
+        <button class="reveal-model-btn ml" onclick="revealModel('actAns7', this)">💡 മാതൃകാ ഉത്തരം</button>
+        <div class="model-answer-box ml" id="actAns7">
+          മഞ്ജുളം → വിപരീതം: കുരൂപം / വിരസം<br>
+          ഉർവി → പര്യായങ്ങൾ: ഭൂമി, പൃഥ്വി, ധരണി
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-block">
+      <div class="activity-heading ml">16. സൃഷ്ടിപരമായ എഴുത്ത് – എന്റെ ഗ്രാമശ്രീ</div>
+      <div class="activity-desc ml">നിങ്ങളുടെ നാട്ടിലെ ഒരു കർഷകസ്ത്രീയെ / കാർഷിക ജീവിതത്തെ കുറിച്ച് 8–10 വാക്യങ്ങളിൽ ഒരു ചെറുകുറിപ്പ് എഴുതുക. (തലക്കെട്ട് നൽകുക.)</div>
+      <textarea class="write-box ml" id="writeBox16" placeholder="ഇവിടെ എഴുതുക..."></textarea>
+      <button class="reveal-model-btn ml" onclick="revealModel('actAns8', this)">💡 മാതൃകാ കുറിപ്പ്</button>
+      <div class="model-answer-box ml" id="actAns8">
+        <b>മണ്ണിന്റെ മകൾ</b><br>
+        അതിരാവിലെ പാടത്തിറങ്ങുന്ന അമ്മയെ ഞാൻ കണ്ടിട്ടുണ്ട്. ചളി പുരണ്ട കാലുകളോടെ ഞാറുനടുന്ന അവരുടെ കൈകൾ നാടിന്റെ നന്മ നെയ്തെടുക്കുന്നു. മഴയും വെയിലും അവർക്ക് തടസ്സമല്ല. അവരുടെ അധ്വാനമാണ് നമ്മുടെ അന്നം. അമ്മയെ ഞാൻ എന്റെ ഗ്രാമശ്രീയായി കാണുന്നു.
+      </div>
+    </div>
   `;
+}
+
+function checkFillBlanks() {
+  const answers = {
+    fb1: ['സുന്ദരാലേഖ്യം', 'സുന്ദരാലേഖ്യം'],
+    fb2: ['നന്മകൾ', 'നന്മകള്'],
+    fb3: ['കടത്തനാട്ട് മാധവി അമ്മ', 'മാധവി അമ്മ', 'കടത്തനാട്ട് മാധവിയമ്മ'],
+    fb4: ['കതിരോ', 'കതിരോൻ', 'ക്കതിരോ']
+  };
+  let score = 0;
+  Object.keys(answers).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const val = (el.value || '').trim().replace(/\s+/g, ' ');
+    const ok = answers[id].some(a => val.includes(a) || a.includes(val));
+    el.style.borderColor = ok ? '#4CAF50' : '#F44336';
+    el.style.background = ok ? '#E8F5E9' : '#FFEBEE';
+    if (ok) score++;
+  });
+  const r = document.getElementById('fbResult');
+  if (r) {
+    r.style.color = score === 4 ? '#2E7D32' : '#C62828';
+    r.innerText = score === 4 ? 'Excellent! All correct 🌟' : `Score: ${score}/4 — try again.`;
+  }
+  playSound(score === 4 ? 'correct' : 'wrong');
+  if (score === 4) { state.score += 10; updateStatsUI(); }
 }
 
 function renderDiscourses() {
@@ -1029,7 +1394,7 @@ function renderModelQP() {
   const c = document.getElementById('modelQPContent');
   c.innerHTML = `
     <div class="qp-title ml">FIRST TERMINAL EVALUATION (MODEL QUESTION PAPER)</div>
-    <div class="qp-meta ml"><b>സ്റ്റാൻഡേർഡ് 7 · മലയാളം (അടിസ്ഥാനപാഠാവലി) · യൂണിറ്റ് 1 (പാഠം 1: ഗ്രാമശ്രീകൾ)</b><br>Max. Marks: 30 &nbsp;|&nbsp; Time: 45 Minutes &nbsp;|&nbsp; തയ്യാറാക്കിയത്: Smart Vidhya</div>
+    <div class="qp-meta ml"><b>സ്റ്റാൻഡേർഡ് 7 · മലയാളം (അടിസ്ഥാനപാഠാവലി) · യൂണിറ്റ് 1 (ഗ്രാമശ്രീകൾ + കുമ്മാട്ടി)</b><br>Max. Marks: 32 &nbsp;|&nbsp; Time: 45 Minutes &nbsp;|&nbsp; തയ്യാറാക്കിയത്: Smart Vidhya</div>
 
     <div class="qp-section-title ml">I. ശരിയായ ഉത്തരം തെരഞ്ഞെടുത്തെഴുതുക (Choose the correct answer) [4 x 1 = 4]</div>
     <div class="qp-q-box ml"><b>1.</b> 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയുടെ രചയിതാവ് ആര്?<br>(A) കടത്തനാട്ട് മാധവി അമ്മ &nbsp; (B) ബാലാമണിയമ്മ &nbsp; (C) സുഗതകുമാരി &nbsp; (D) വിജയലക്ഷ്മി</div>
@@ -1056,8 +1421,12 @@ function renderModelQP() {
     <div class="qp-q-box ml"><b>14.</b> “താഴെ, വയലിൽ, നിരയായ് നിരയായി / നീലനീരാളം വിരിയുകയായ്” - കാവ്യഭംഗി വിശദമാക്കുക.</div>
     <div class="qp-q-box ml"><b>15.</b> പര്യായപദങ്ങൾ എഴുതുക: (A) ഉർവി (B) കതിരോൻ (C) കുന്തളം</div>
 
-    <div class="qp-section-title ml">VI. ആസ്വാദനക്കുറിപ്പ് (1 x 8 = 8]</div>
-    <div class="qp-q-box ml"><b>16.</b> 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയിലെ ആശയസമ്പുഷ്ടിയും പ്രയോഗഭംഗിയും വിശകലനം ചെയ്ത് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക.</div>
+    <div class="qp-section-title ml">VI. കുമ്മാട്ടി (നാടോടിക്കല) [2 x 2 = 4]</div>
+    <div class="qp-q-box ml"><b>16.</b> എന്താണ് കുമ്മാട്ടിക്കളി? രണ്ട് വേഷസവിശേഷതകൾ എഴുതുക.</div>
+    <div class="qp-q-box ml"><b>17.</b> കാർഷികോത്സവങ്ങൾ നാടോടിക്കലകളെ നിലനിർത്താൻ സഹായിക്കുന്നതെങ്ങനെ?</div>
+
+    <div class="qp-section-title ml">VII. ആസ്വാദനക്കുറിപ്പ് (1 x 6 = 6]</div>
+    <div class="qp-q-box ml"><b>18.</b> 'ഗ്രാമശ്രീകൾ' എന്ന കവിതയിലെ ആശയസമ്പുഷ്ടിയും പ്രയോഗഭംഗിയും വിശകലനം ചെയ്ത് ആസ്വാദനക്കുറിപ്പ് തയ്യാറാക്കുക.</div>
 
     <button class="reveal-model-btn ml" style="width:100%; margin-top:14px;" onclick="revealModel('qpAnswerKey', this)">💡 Answer Key & Marking Scheme (ഉത്തരസൂചിക)</button>
     <div class="model-answer-box ml" id="qpAnswerKey">
@@ -1070,7 +1439,9 @@ function renderModelQP() {
       13. പച്ചിലക്കൂട്ടവും പാടവും മഴയും ചേർന്ന് കേരളം അതിമനോഹരമായ ഒരു ചിത്രംപോലെ തോന്നിപ്പിക്കുന്നതിനാൽ.<br>
       14. വയലിൽ നിരയായി നട്ടുപിടിപ്പിച്ച പച്ചഞാറുകളെ നീലപ്പട്ടുവിരിച്ചതായി ഉപമിച്ച ഭംഗി.<br>
       15. ഉർവി = ഭൂമി/പൃഥ്വി, കതിരോൻ = സൂര്യൻ/ഭാസ്കരൻ, കുന്തളം = മുടി/കേശം.<br>
-      16. തലക്കെട്ട്, ആശയവ്യക്തത, കാവ്യാലങ്കാരങ്ങൾ, പ്രയോഗഭംഗി, വ്യക്തിഗത നിരീക്ഷണം എന്നിവ വിലയിരുത്തി മാർക്ക് നൽകുക.
+      16. തൃശൂർ പ്രദേശത്തെ ഓണക്കാല നാടോടിക്കല; മുഖാവരണം, പന്നി/തള്ള വേഷം, മൂന്ന് കെട്ട് കാലിൽ/കൈയിൽ.<br>
+      17. കൂട്ടായ്മ, പാരമ്പര്യം പകർന്നുകൊടുക്കൽ, ഗ്രാമീണ സംസ്കാരം നിലനിർത്തൽ.<br>
+      18. തലക്കെട്ട്, ആശയവ്യക്തത, കാവ്യാലങ്കാരങ്ങൾ, പ്രയോഗഭംഗി, വ്യക്തിഗത നിരീക്ഷണം എന്നിവ വിലയിരുത്തി മാർക്ക് നൽകുക.
     </div>
   `;
 }
@@ -1125,6 +1496,60 @@ VI. ആസ്വാദനക്കുറിപ്പ് (1 x 8 = 8)
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+function renderUnitQP() {
+  const el = document.getElementById('unitQPPaper');
+  if (!el) return;
+  el.innerHTML = `
+<div class="qp-school">Standard VII – Malayalam (അടിസ്ഥാനപാഠാവലി)</div>
+<div class="qp-title">UNIT TEST – QUESTION PAPER</div>
+<div style="text-align:center;font-weight:bold;margin-bottom:6px">Unit 1 : കതിരപ്പൂട്ടും നാടൻപാട്ടുകളും · പാഠം 1: ഗ്രാമശ്രീകൾ + കുമ്മാട്ടി</div>
+<div class="qp-meta"><span>Time: 45 minutes</span><span>Max. Marks: 25</span></div>
+
+<div class="qp-act">
+  <div class="qp-act-h">Activity 1 – ഗ്രാമശ്രീകൾ (കവിത) (8)</div>
+  <p>ക) ‘വിശ്വവിദ്യാലയം’ എന്നതുകൊണ്ട് കവി ഉദ്ദേശിക്കുന്നത് എന്ത്? (2)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div>
+  <p>ഖ) കർഷകസ്ത്രീകളെ ‘ഗ്രാമശ്രീകൾ’ എന്ന് വിശേഷിപ്പിക്കാൻ കാരണമെന്ത്? (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+  <p>ഗ) “സുന്ദരാലേഖ്യം നീ, കേരളമേ!” — വിശദീകരിക്കുക. (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+</div>
+
+<div class="qp-act">
+  <div class="qp-act-h">Activity 2 – കാവ്യഭംഗി / പ്രയോഗം (6)</div>
+  <p>ക) “താഴെ, വയലിൽ, നിരയായ് നിരയായി / നീലനീരാളം വിരിയുകയായ്” — കാവ്യഭംഗി വിശദമാക്കുക. (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+  <p>ഖ) “മഞ്ജുളമിക്കലാസൃഷ്ടിക്കു മുമ്പിലായഞ്ജലിയർപ്പിക്ക ഭക്തിപൂർവം” — കൃഷി ഒരു കലാസൃഷ്ടിയാകുന്നത് എങ്ങനെ? (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+</div>
+
+<div class="qp-act">
+  <div class="qp-act-h">Activity 3 – കുമ്മാട്ടി (നാടോടിക്കല) (6)</div>
+  <p>ക) എന്താണ് കുമ്മാട്ടിക്കളി? രണ്ട് വേഷസവിശേഷതകൾ എഴുതുക. (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+  <p>ഖ) കാർഷികോത്സവങ്ങളും നാടോടിക്കലകളും ജനതാമതി നിലനിർത്താൻ സഹായിക്കുന്നതെങ്ങനെ? (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div><div class="qp-lines"></div>
+</div>
+
+<div class="qp-act">
+  <div class="qp-act-h">Activity 4 – ഭാഷ / പദാവലി (5)</div>
+  <p>ക) പര്യായങ്ങൾ എഴുതുക: ഉർവി, കതിരോൻ, കുന്തളം. (3)</p>
+  <div class="qp-lines"></div><div class="qp-lines"></div>
+  <p>ഖ) ‘മഞ്ജുളം’ എന്ന പദത്തിന്റെ വിപരീതം എഴുതുക. (1)</p>
+  <div class="qp-lines"></div>
+  <p>ഗ) വിട്ടുപോയ ഭാഗം പൂരിപ്പിക്കുക: ചേർക്കുണ്ടിൽത്താഴ്ത്തുമീത്തൂവിരൽത്തുമ്പത്രേ നാട്ടിന്റെ ............ നെയ്തെടുപ്പൂ!! (1)</p>
+  <div class="qp-lines"></div>
+</div>
+
+<div class="qp-footer">Prepared by Smart Vidhya · STD 7 Malayalam AT Unit 1</div>`;
+}
+
+function printUnitQP() {
+  playSound('click');
+  showScreen('unitQPScreen');
+  setTimeout(function() { window.print(); }, 350);
 }
 
 // Games Controller
@@ -1311,8 +1736,11 @@ function submitQuiz() {
 
 window.onload = function() {
   updateStatsUI();
-  initAudio();
-  if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+    pickVoice();
+    window.speechSynthesis.onvoiceschanged = pickVoice;
+  }
 };
 </script>
 </body>
