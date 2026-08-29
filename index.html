@@ -22,6 +22,7 @@
   --radius: 18px;
 }
 * { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
+html { overflow-x: hidden; width: 100%; }
 body {
   background: var(--bg-gradient);
   min-height: 100vh;
@@ -29,10 +30,25 @@ body {
   font-family: 'Anek Malayalam', 'Outfit', sans-serif;
   direction: ltr;
   text-align: left;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  -webkit-text-size-adjust: 100%;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 .en { font-family: 'Outfit', sans-serif; }
-.ml { font-family: 'Anek Malayalam', sans-serif; }
-#app { max-width: 1080px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; }
+.ml { font-family: 'Anek Malayalam', sans-serif; word-wrap: break-word; overflow-wrap: break-word; }
+#app {
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  width: 100%;
+  overflow-x: hidden;
+}
 
 header {
   background: var(--card-bg);
@@ -153,32 +169,47 @@ header {
 .content-box {
   background: var(--card-bg);
   border-radius: 22px;
-  padding: 24px;
+  padding: 18px;
   box-shadow: var(--shadow);
   width: 100%;
   max-width: 950px;
   margin: 0 auto 20px;
   border: 3px solid #FFF;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .poem-stanza {
   background: #F1F8E9;
   border-left: 6px solid #4CAF50;
-  padding: 18px 20px;
+  padding: 14px 12px;
   border-radius: 16px;
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 10px;
   transition: all 0.25s ease;
+  overflow-x: hidden;
+  width: 100%;
 }
 .poem-stanza.reading-now {
   background: linear-gradient(90deg, #FFF8E1, #E8F5E9);
   box-shadow: 0 0 0 3px #43A047;
-  transform: scale(1.01);
 }
-.poem-text { font-size: 1.25rem; line-height: 2.2; font-weight: 600; color: #1B5E20; }
+.poem-text {
+  font-size: 1.15rem;
+  line-height: 2.1;
+  font-weight: 600;
+  color: #1B5E20;
+  flex: 1;
+  min-width: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  hyphens: auto;
+}
 .mini-play {
   background: var(--primary);
   color: white;
@@ -212,11 +243,14 @@ header {
   background: #FFFDE7;
   border: 2px solid #FFF59D;
   border-radius: 18px;
-  padding: 22px;
+  padding: 16px;
   margin-bottom: 20px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
-.activity-heading { color: #D84315; font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #FFE082; padding-bottom: 6px; }
-.activity-desc { font-size: 1.12rem; line-height: 1.8; margin-bottom: 14px; font-weight: 500; }
+.activity-heading { color: #D84315; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #FFE082; padding-bottom: 6px; word-wrap: break-word; }
+.activity-desc { font-size: 1.08rem; line-height: 1.8; margin-bottom: 14px; font-weight: 500; word-wrap: break-word; overflow-wrap: break-word; }
 .reveal-model-btn {
   background: var(--purple);
   color: white;
@@ -313,9 +347,9 @@ header {
 .option-btn {
   background: #FFF;
   border: 3px solid #90CAF9;
-  padding: 16px;
+  padding: 14px 10px;
   border-radius: 16px;
-  font-size: 1.18rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #0D47A1;
   cursor: pointer;
@@ -323,6 +357,10 @@ header {
   text-align: center;
   transition: all 0.2s;
   line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  min-width: 0;
 }
 .option-btn:hover { background: #E3F2FD; }
 .option-btn.correct { background: #C8E6C9 !important; border-color: #4CAF50 !important; color: #1B5E20 !important; box-shadow: 0 4px 0 #388E3C !important; }
@@ -422,11 +460,24 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
 .reward-title { color: #2E7D32; font-size: 1.85rem; font-weight: 800; margin-bottom: 6px; }
 
 @media (max-width: 700px) {
-  .main-title { font-size: 1.5rem; }
+  #app { padding: 8px; }
+  .main-title { font-size: 1.35rem; }
+  .sub-title { font-size: 1.05rem; }
+  .content-box { padding: 12px; border-radius: 16px; }
+  .poem-text { font-size: 1.05rem; line-height: 2; }
+  .poem-stanza { padding: 12px 8px; gap: 8px; }
+  .activity-desc, .activity-heading { font-size: 1.05rem; }
   .options-grid { grid-template-columns: 1fr; }
   .quiz-opts { grid-template-columns: 1fr; }
   .match-container { flex-direction: column; }
-  .poem-text { font-size: 1.12rem; }
+  .vocab-cards-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .section-header { padding: 10px 12px; }
+  .section-title { font-size: 1.1rem; }
+  .home-card { padding: 20px 14px; }
+  .btn-menu { font-size: 0.95rem; padding: 14px 12px; }
+  .unit-qp-paper { padding: 14px 12px; }
+  .qp-q-box, .activity-block { overflow-x: hidden; word-wrap: break-word; }
 }
 
 @media print {
@@ -705,8 +756,15 @@ function initAudio() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 
+function isInApp() {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  if (window.Android || window.ReactNativeWebView) return true;
+  if (window.webkit && window.webkit.messageHandlers) return true;
+  if (/; wv\)|webview|fbav|instagram/.test(ua)) return true;
+  return false;
+}
+
 function unlockAudio() {
-  if (audioUnlocked) return;
   audioUnlocked = true;
   try {
     initAudio();
@@ -714,7 +772,15 @@ function unlockAudio() {
   } catch(e) {}
   try {
     const a = document.getElementById('ttsPlayer');
-    if (a) { a.muted = true; a.play().then(() => { a.pause(); a.muted = false; a.currentTime = 0; }).catch(()=>{}); }
+    if (a) {
+      a.playsInline = true;
+      a.muted = true;
+      const p = a.play();
+      if (p && p.catch) p.catch(function(){});
+      setTimeout(function() {
+        try { a.pause(); a.muted = false; a.removeAttribute('src'); } catch(e) {}
+      }, 80);
+    }
   } catch(e) {}
   if ('speechSynthesis' in window) {
     try {
@@ -726,6 +792,35 @@ function unlockAudio() {
 }
 document.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
 document.addEventListener('click', unlockAudio, true);
+
+function nativeSpeak(text) {
+  try {
+    if (window.Android) {
+      if (typeof window.Android.speak === 'function') { window.Android.speak(String(text)); return true; }
+      if (typeof window.Android.speakText === 'function') { window.Android.speakText(String(text)); return true; }
+      if (typeof window.Android.tts === 'function') { window.Android.tts(String(text)); return true; }
+    }
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.speak) {
+      window.webkit.messageHandlers.speak.postMessage(String(text));
+      return true;
+    }
+    if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'speak', text: String(text), lang: 'ml-IN' }));
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function nativeStop() {
+  try {
+    if (window.Android && typeof window.Android.stopSpeak === 'function') window.Android.stopSpeak();
+    if (window.Android && typeof window.Android.stop === 'function') window.Android.stop();
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.stopSpeak) {
+      window.webkit.messageHandlers.stopSpeak.postMessage('stop');
+    }
+  } catch(e) {}
+}
 
 function playTone(freq, type, duration, delay=0) {
   if (!state.audioEnabled) return;
@@ -825,17 +920,27 @@ function getPlayer() {
 function playGoogleChunks(chunks, onend) {
   const token = ttsToken;
   let i = 0;
+  let anyOk = false;
   function next() {
     if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
-    if (i >= chunks.length) { if (onend) onend(); return; }
+    if (i >= chunks.length) {
+      // If Google never succeeded, fall back to speechSynthesis
+      if (!anyOk && 'speechSynthesis' in window) {
+        speakViaSynth(chunks, onend);
+        return;
+      }
+      if (onend) onend();
+      return;
+    }
     const a = getPlayer();
     ttsAudio = a;
     const src = googleTtsUrl(chunks[i]);
-    let done = false;
-    const to = setTimeout(() => { if (!done) { done = true; i++; next(); } }, 12000);
+    let finished = false;
+    const to = setTimeout(() => { if (!finished) { finished = true; i++; next(); } }, 10000);
     function finish(ok) {
-      if (done) return;
-      done = true; clearTimeout(to);
+      if (finished) return;
+      finished = true; clearTimeout(to);
+      if (ok) anyOk = true;
       i++;
       next();
     }
@@ -890,6 +995,7 @@ function speakViaSynth(chunks, onend) {
 function stopSpeech() {
   ttsStopped = true;
   ttsToken++;
+  nativeStop();
   try {
     const a = document.getElementById('ttsPlayer') || ttsAudio;
     if (a) { a.pause(); a.removeAttribute('src'); if (a.load) a.load(); }
@@ -906,15 +1012,28 @@ function speakMalayalam(text, onend) {
   const token = ++ttsToken;
   const raw = String(text || '').trim();
   if (!raw) { if (onend) onend(); return; }
-  const chunks = splitIntoSpeechChunks(raw);
-  if (!chunks.length) { if (onend) onend(); return; }
 
-  // Model-style: always prefer Google TTS for clear Malayalam pronunciation
-  playGoogleChunks(chunks, () => {
-    if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
-    // Fallback to speechSynthesis if Google produced no usable audio
-    // (playGoogleChunks already advances per-chunk on error)
-    if (onend) onend();
+  function done() {
+    if (token === ttsToken && onend) onend();
+  }
+
+  // 1) Internal app native bridge (Android / iOS / ReactNative) — works offline in app
+  if (nativeSpeak(raw)) {
+    const wait = Math.min(25000, Math.max(2500, raw.length * 80));
+    setTimeout(function() {
+      if (token === ttsToken) done();
+    }, wait);
+    return;
+  }
+
+  const chunks = splitIntoSpeechChunks(raw);
+  if (!chunks.length) { done(); return; }
+
+  // 2) Google TTS (clear Malayalam) — primary like model
+  // 3) speechSynthesis fallback if Google fails / offline
+  playGoogleChunks(chunks, function() {
+    if (ttsStopped || token !== ttsToken) { done(); return; }
+    done();
   });
 }
 // Alias so games / other code can call speakText like the model
