@@ -748,308 +748,238 @@ let state = {
   quizSubmitted: false
 };
 
-let audioCtx = null, chosenVoice = null, audioUnlocked = false;
-let ttsAudio = null, ttsToken = 0, ttsStopped = false;
-
-function initAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-}
-
-function isInApp() {
-  const ua = (navigator.userAgent || '').toLowerCase();
-  if (window.Android || window.ReactNativeWebView) return true;
-  if (window.webkit && window.webkit.messageHandlers) return true;
-  if (/; wv\)|webview|fbav|instagram/.test(ua)) return true;
-  return false;
-}
-
-function unlockAudio() {
-  audioUnlocked = true;
-  try {
-    initAudio();
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  } catch(e) {}
-  try {
-    const a = document.getElementById('ttsPlayer');
-    if (a) {
-      a.playsInline = true;
-      a.muted = true;
-      const p = a.play();
-      if (p && p.catch) p.catch(function(){});
-      setTimeout(function() {
-        try { a.pause(); a.muted = false; a.removeAttribute('src'); } catch(e) {}
-      }, 80);
-    }
-  } catch(e) {}
-  if ('speechSynthesis' in window) {
-    try {
-      window.speechSynthesis.getVoices();
-      pickVoice();
-      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-    } catch(e) {}
-  }
-}
-document.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
-document.addEventListener('click', unlockAudio, true);
-
-function nativeSpeak(text) {
-  try {
-    if (window.Android) {
-      if (typeof window.Android.speak === 'function') { window.Android.speak(String(text)); return true; }
-      if (typeof window.Android.speakText === 'function') { window.Android.speakText(String(text)); return true; }
-      if (typeof window.Android.tts === 'function') { window.Android.tts(String(text)); return true; }
-    }
-    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.speak) {
-      window.webkit.messageHandlers.speak.postMessage(String(text));
-      return true;
-    }
-    if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'speak', text: String(text), lang: 'ml-IN' }));
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-function nativeStop() {
-  try {
-    if (window.Android && typeof window.Android.stopSpeak === 'function') window.Android.stopSpeak();
-    if (window.Android && typeof window.Android.stop === 'function') window.Android.stop();
-    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.stopSpeak) {
-      window.webkit.messageHandlers.stopSpeak.postMessage('stop');
-    }
-  } catch(e) {}
-}
-
-function playTone(freq, type, duration, delay=0) {
-  if (!state.audioEnabled) return;
-  initAudio();
-  setTimeout(() => {
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    } catch(e) {}
-  }, delay * 1000);
-}
-
-function playSound(type) {
-  if (!state.audioEnabled) return;
-  initAudio();
-  if (type === 'correct') {
-    playTone(523.25, 'sine', 0.2, 0);
-    playTone(659.25, 'sine', 0.2, 0.1);
-    playTone(783.99, 'sine', 0.3, 0.2);
-  } else if (type === 'wrong') {
-    playTone(280, 'sawtooth', 0.2, 0);
-    playTone(180, 'sawtooth', 0.3, 0.15);
-  } else if (type === 'click') {
-    playTone(480, 'triangle', 0.08, 0);
-  } else if (type === 'fanfare') {
-    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => playTone(f, 'sine', 0.35, i * 0.12));
-  }
-}
-
-function pickMalayalamVoice() {
-  if (!('speechSynthesis' in window)) return null;
-  const voices = window.speechSynthesis.getVoices() || [];
-  const score = v => {
-    const n = (v.name || '').toLowerCase(), l = (v.lang || '').toLowerCase();
-    if (!l.startsWith('ml')) return 0;
-    if (/neural|natural|online|google|microsoft|sobhana|midhun|premium|samsung/.test(n)) return 5;
-    if (l === 'ml-in' || l === 'ml_in') return 4;
+let audioCtx=null,chosenVoice=null;
+function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
+function playSound(type){if(!state.audioEnabled)return;initAudio();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);const now=audioCtx.currentTime;if(type==='correct'){osc.type='sine';osc.frequency.setValueAtTime(523.25,now);osc.frequency.exponentialRampToValueAtTime(783.99,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.4);osc.start(now);osc.stop(now+.4)}else if(type==='wrong'){osc.type='sawtooth';osc.frequency.setValueAtTime(220,now);osc.frequency.linearRampToValueAtTime(130,now+.3);gain.gain.setValueAtTime(.3,now);gain.gain.exponentialRampToValueAtTime(.01,now+.35);osc.start(now);osc.stop(now+.35)}else if(type==='click'){osc.type='triangle';osc.frequency.setValueAtTime(400,now);gain.gain.setValueAtTime(.15,now);gain.gain.exponentialRampToValueAtTime(.01,now+.08);osc.start(now);osc.stop(now+.08)}else if(type==='fanfare'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.setValueAtTime(f,now+i*.12);g.gain.setValueAtTime(.2,now+i*.12);g.gain.exponentialRampToValueAtTime(.01,now+i*.12+.3);o.start(now+i*.12);o.stop(now+i*.12+.3)})}}
+function pickMalayalamVoice(){
+  if(!('speechSynthesis'in window)) return null;
+  const voices=window.speechSynthesis.getVoices()||[];
+  const score=v=>{
+    const n=(v.name||'').toLowerCase(), l=(v.lang||'').toLowerCase();
+    if(!l.startsWith('ml')) return 0;
+    if(/neural|natural|online|google|microsoft|sobhana|midhun|premium|samsung/.test(n)) return 5;
+    if(l==='ml-in'||l==='ml_in') return 4;
     return 3;
   };
-  let best = null, bestS = 0;
-  voices.forEach(v => { const s = score(v); if (s > bestS) { best = v; bestS = s; } });
-  return bestS >= 3 ? best : null;
+  let best=null,bestS=0;
+  voices.forEach(v=>{const s=score(v); if(s>bestS){best=v;bestS=s}});
+  return bestS>=3?best:null;
 }
-function pickVoice() { chosenVoice = pickMalayalamVoice(); return chosenVoice; }
-if ('speechSynthesis' in window) {
-  try { window.speechSynthesis.onvoiceschanged = pickVoice; } catch(e) {}
-  pickVoice();
+function pickVoice(){chosenVoice=pickMalayalamVoice();return chosenVoice}
+
+let ttsAudio=null, ttsQueue=[], ttsOnEnd=null, ttsStopped=false, ttsToken=0, audioUnlocked=false;
+
+function isInApp(){
+  const ua=(navigator.userAgent||'').toLowerCase();
+  if(window.Android||window.ReactNativeWebView) return true;
+  if(window.webkit&&window.webkit.messageHandlers) return true;
+  if(/; wv\)|webview|fbav|instagram|wv/.test(ua)) return true;
+  return false;
 }
 
-function splitIntoSpeechChunks(text) {
-  const clean = String(text || '').replace(/\s+/g, ' ').trim();
-  if (!clean) return [];
-  const MAX_LEN = 90;
-  if (clean.length <= MAX_LEN) return [clean];
-  const rawParts = clean.split(/(?<=[,;!?॥।\n])\s*/).filter(p => p.trim());
-  const merged = [];
-  let buffer = '';
-  rawParts.forEach(p => {
-    const candidate = (buffer ? buffer + ' ' : '') + p;
-    if (candidate.trim().length <= MAX_LEN) buffer = candidate;
-    else {
-      if (buffer.trim()) merged.push(buffer.trim());
-      buffer = p;
+function unlockAudio(){
+  audioUnlocked=true;
+  try{initAudio(); if(audioCtx&&audioCtx.state==='suspended') audioCtx.resume()}catch(e){}
+  try{
+    const a=document.getElementById('ttsPlayer');
+    if(a){
+      a.playsInline=true; a.muted=true;
+      const p=a.play();
+      if(p&&p.catch)p.catch(function(){});
+      setTimeout(function(){try{a.pause();a.muted=false;a.removeAttribute('src')}catch(e){}},80);
     }
-  });
-  if (buffer.trim()) merged.push(buffer.trim());
-  return merged.length ? merged : [clean];
+  }catch(e){}
+  if('speechSynthesis'in window){
+    try{window.speechSynthesis.getVoices();pickVoice();if(window.speechSynthesis.paused)window.speechSynthesis.resume()}catch(e){}
+  }
+}
+document.addEventListener('touchstart',unlockAudio,{once:false,passive:true});
+document.addEventListener('click',unlockAudio,true);
+if('speechSynthesis'in window){
+  try{window.speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
 }
 
-function googleTtsUrl(text) {
-  return 'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ml&q=' + encodeURIComponent(text);
+function nativeSpeak(text){
+  try{
+    if(window.Android){
+      if(typeof window.Android.speak==='function'){window.Android.speak(String(text));return true}
+      if(typeof window.Android.speakText==='function'){window.Android.speakText(String(text));return true}
+      if(typeof window.Android.tts==='function'){window.Android.tts(String(text));return true}
+    }
+    if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.speak){
+      window.webkit.messageHandlers.speak.postMessage(String(text));return true
+    }
+    if(window.ReactNativeWebView&&window.ReactNativeWebView.postMessage){
+      window.ReactNativeWebView.postMessage(JSON.stringify({type:'speak',text:String(text),lang:'ml-IN'}));return true
+    }
+  }catch(e){}
+  return false;
+}
+function nativeStop(){
+  try{
+    if(window.Android&&typeof window.Android.stopSpeak==='function') window.Android.stopSpeak();
+    if(window.Android&&typeof window.Android.stop==='function') window.Android.stop();
+    if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.stopSpeak){
+      window.webkit.messageHandlers.stopSpeak.postMessage('stop');
+    }
+  }catch(e){}
 }
 
-function getPlayer() {
-  let a = document.getElementById('ttsPlayer');
-  if (!a) {
-    a = document.createElement('audio');
-    a.id = 'ttsPlayer';
-    a.setAttribute('playsinline', 'true');
-    a.setAttribute('webkit-playsinline', 'true');
-    a.style.display = 'none';
+function stopSpeech(){
+  ttsStopped=true;
+  ttsToken++;
+  ttsQueue=[];
+  ttsOnEnd=null;
+  nativeStop();
+  try{
+    const a=document.getElementById('ttsPlayer')||ttsAudio;
+    if(a){a.pause();a.removeAttribute('src');a.load&&a.load()}
+  }catch(e){}
+  ttsAudio=null;
+  if('speechSynthesis'in window){try{window.speechSynthesis.cancel()}catch(e){}}
+}
+function stopSpeak(reset){stopSpeech()}
+
+function splitMlChunks(text,maxLen){
+  const clean=String(text||'').replace(/\s+/g,' ').trim();
+  if(!clean) return [];
+  if(clean.length<=maxLen) return [clean];
+  const parts=clean.split(/([।.!?…,;:\n])\s*/);
+  const out=[]; let buf='';
+  for(let i=0;i<parts.length;i++){
+    const p=parts[i];
+    if(!p) continue;
+    if((buf+p).length<=maxLen){buf+=p; continue}
+    if(buf) out.push(buf.trim());
+    if(p.length<=maxLen){buf=p; continue}
+    for(let k=0;k<p.length;k+=maxLen) out.push(p.slice(k,k+maxLen));
+    buf='';
+  }
+  if(buf.trim()) out.push(buf.trim());
+  return out.filter(Boolean);
+}
+
+function googleUrls(text,tl){
+  const q=encodeURIComponent(text);
+  return [
+    'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl='+tl+'&q='+q,
+    'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='+tl+'&q='+q
+  ];
+}
+function googleTtsUrl(text){return googleUrls(text,'ml')[0]}
+
+function getPlayer(){
+  var a=document.getElementById('ttsPlayer');
+  if(!a){
+    a=document.createElement('audio');
+    a.id='ttsPlayer';
+    a.setAttribute('playsinline','true');
+    a.setAttribute('webkit-playsinline','true');
+    a.style.display='none';
     document.body.appendChild(a);
   }
-  a.playsInline = true;
-  a.preload = 'auto';
+  a.playsInline=true;
+  a.setAttribute('playsinline','true');
+  a.setAttribute('webkit-playsinline','true');
+  a.preload='auto';
   return a;
 }
 
-function playGoogleChunks(chunks, onend) {
-  const token = ttsToken;
-  let i = 0;
-  let anyOk = false;
-  function next() {
-    if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
-    if (i >= chunks.length) {
-      // If Google never succeeded, fall back to speechSynthesis
-      if (!anyOk && 'speechSynthesis' in window) {
-        speakViaSynth(chunks, onend);
+function playSrc(src){
+  return new Promise(function(resolve,reject){
+    const a=getPlayer();
+    ttsAudio=a;
+    try{a.pause()}catch(e){}
+    var done=false;
+    var to=setTimeout(function(){if(!done){done=true;reject(new Error('timeout'))}},14000);
+    function finish(ok){
+      if(done) return;
+      done=true; clearTimeout(to);
+      if(ok) resolve(true); else reject(new Error('fail'));
+    }
+    a.onended=function(){finish(true)};
+    a.onerror=function(){finish(false)};
+    a.src=src;
+    var p=a.play();
+    if(p&&p.catch) p.catch(function(){finish(false)});
+  });
+}
+
+function playGoogleChunks(chunks,onend){
+  var token=ttsToken;
+  var i=0;
+  function next(){
+    if(ttsStopped||token!==ttsToken){if(onend)onend();return}
+    if(i>=chunks.length){if(onend)onend();return}
+    var urls=googleUrls(chunks[i],'ml');
+    var u=0;
+    function tryUrl(){
+      if(ttsStopped||token!==ttsToken){if(onend)onend();return}
+      if(u>=urls.length){
+        speakViaSystem(chunks[i], function(){ i++; next(); });
         return;
       }
-      if (onend) onend();
-      return;
+      playSrc(urls[u]).then(function(){ i++; next(); }).catch(function(){ u++; tryUrl(); });
     }
-    const a = getPlayer();
-    ttsAudio = a;
-    const src = googleTtsUrl(chunks[i]);
-    let finished = false;
-    const to = setTimeout(() => { if (!finished) { finished = true; i++; next(); } }, 10000);
-    function finish(ok) {
-      if (finished) return;
-      finished = true; clearTimeout(to);
-      if (ok) anyOk = true;
-      i++;
-      next();
-    }
-    a.onended = () => finish(true);
-    a.onerror = () => finish(false);
-    try { a.pause(); } catch(e) {}
-    a.src = src;
-    const p = a.play();
-    if (p && p.catch) p.catch(() => finish(false));
+    tryUrl();
   }
   next();
 }
 
-function speakViaSynth(chunks, onend) {
-  if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
-  const mlVoice = chosenVoice || pickVoice();
-  let idx = 0;
-  let watchdogTimer = null;
-  function clearWatchdog() { if (watchdogTimer) { clearInterval(watchdogTimer); watchdogTimer = null; } }
-  function speakChunk() {
-    clearWatchdog();
-    if (ttsStopped || idx >= chunks.length) { if (onend) onend(); return; }
-    const utterance = new SpeechSynthesisUtterance(chunks[idx]);
-    utterance.lang = 'ml-IN';
-    utterance.rate = 0.78;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    if (mlVoice) utterance.voice = mlVoice;
-    let finished = false;
-    const finishChunk = () => {
-      if (finished) return;
-      finished = true;
-      clearWatchdog();
-      idx++;
-      speakChunk();
-    };
-    utterance.onend = finishChunk;
-    utterance.onerror = finishChunk;
-    let stuckTicks = 0;
-    watchdogTimer = setInterval(() => {
-      if (finished) return;
-      const synth = window.speechSynthesis;
-      if (synth.paused) { synth.resume(); stuckTicks = 0; }
-      else if (!synth.speaking && !synth.pending) { stuckTicks++; if (stuckTicks >= 2) finishChunk(); }
-      else { stuckTicks = 0; try { synth.pause(); synth.resume(); } catch(e) {} }
-    }, 3000);
-    window.speechSynthesis.speak(utterance);
+function speakViaSystem(text,onend){
+  if(!('speechSynthesis'in window)){if(onend)onend();return}
+  pickVoice();
+  var pieces=splitMlChunks(text,180);
+  var i=0;
+  function next(){
+    if(ttsStopped){if(onend)onend();return}
+    if(i>=pieces.length){if(onend)onend();return}
+    try{window.speechSynthesis.resume()}catch(e){}
+    var u=new SpeechSynthesisUtterance(pieces[i]);
+    u.lang='ml-IN'; u.rate=0.88; u.pitch=1; u.volume=1;
+    var v=pickMalayalamVoice();
+    if(v) u.voice=v;
+    u.onend=function(){i++; next()};
+    u.onerror=function(){i++; next()};
+    try{window.speechSynthesis.speak(u)}catch(e){i++; next()}
   }
-  speakChunk();
+  next();
 }
 
-function stopSpeech() {
-  ttsStopped = true;
-  ttsToken++;
-  nativeStop();
-  try {
-    const a = document.getElementById('ttsPlayer') || ttsAudio;
-    if (a) { a.pause(); a.removeAttribute('src'); if (a.load) a.load(); }
-  } catch(e) {}
-  ttsAudio = null;
-  if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e) {} }
-}
-
-function speakMalayalam(text, onend) {
-  if (!state.audioEnabled) { if (onend) onend(); return; }
-  unlockAudio();
+function speakText(text,onend){
+  if(!state.audioEnabled){if(onend)onend();return}
+  if(typeof unlockAudio==='function') try{unlockAudio()}catch(e){}
   stopSpeech();
-  ttsStopped = false;
-  const token = ++ttsToken;
-  const raw = String(text || '').trim();
-  if (!raw) { if (onend) onend(); return; }
-
-  function done() {
-    if (token === ttsToken && onend) onend();
-  }
-
-  // 1) Internal app native bridge (Android / iOS / ReactNative) — works offline in app
-  if (nativeSpeak(raw)) {
-    const wait = Math.min(25000, Math.max(2500, raw.length * 80));
-    setTimeout(function() {
-      if (token === ttsToken) done();
-    }, wait);
+  ttsStopped=false;
+  var token=++ttsToken;
+  var raw=String(text||'').trim();
+  if(!raw){if(onend)onend();return}
+  var map=(typeof AUDIO_MAP==='object'&&AUDIO_MAP)?AUDIO_MAP:(window.AUDIO_MAP||{});
+  var bundled=map[raw];
+  function done(){ if(token===ttsToken && onend) onend(); }
+  if(bundled){
+    playSrc(bundled).then(function(){ done(); }).catch(function(){
+      if(token!==ttsToken){if(onend)onend();return}
+      var chunks=splitMlChunks(raw,140);
+      playGoogleChunks(chunks,onend);
+    });
     return;
   }
-
-  const chunks = splitIntoSpeechChunks(raw);
-  if (!chunks.length) { done(); return; }
-
-  // 2) Google TTS (clear Malayalam) — primary like model
-  // 3) speechSynthesis fallback if Google fails / offline
-  playGoogleChunks(chunks, function() {
-    if (ttsStopped || token !== ttsToken) { done(); return; }
-    done();
-  });
+  var chunks=splitMlChunks(raw,140);
+  if(!chunks.length){if(onend)onend();return}
+  if(typeof nativeSpeak==='function' && nativeSpeak(raw)){
+    var wait=Math.min(22000, raw.length*75);
+    setTimeout(function(){ if(token===ttsToken && onend) onend(); }, wait);
+    return;
+  }
+  playGoogleChunks(chunks,onend);
 }
-// Alias so games / other code can call speakText like the model
-function speakText(text, onend) { speakMalayalam(text, onend); }
+function speakMalayalam(text,onend){ speakText(text,onend); }
 
-if ('speechSynthesis' in window) {
-  const resumeIfPaused = () => { if (window.speechSynthesis.paused) window.speechSynthesis.resume(); };
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeIfPaused(); });
-  window.addEventListener('focus', resumeIfPaused);
-  window.addEventListener('pageshow', resumeIfPaused);
-}
-
-function toggleAudio() {
-  state.audioEnabled = !state.audioEnabled;
-  document.getElementById('btnAudioToggle').innerText = state.audioEnabled ? '🔊' : '🔇';
-  if (!state.audioEnabled) stopSpeech();
+function toggleAudio(){
+  state.audioEnabled=!state.audioEnabled;
+  document.getElementById('btnAudioToggle').innerText=state.audioEnabled?'🔊':'🔇';
+  if(!state.audioEnabled)stopSpeech();
 }
 
 function toggleFullscreen() {
