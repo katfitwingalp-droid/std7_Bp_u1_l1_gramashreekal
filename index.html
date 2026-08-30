@@ -440,6 +440,31 @@ table.custom-table { width: 100%; border-collapse: collapse; background: white; 
   .model-answer-box { display: block !important; border: 1px solid #555; }
   .unit-qp-paper { border: none; padding: 0; }
 }
+
+/* keep Malayalam words inside layout */
+html, body { overflow-x: hidden; max-width: 100%; }
+#app, .screen, .content-box, .home-card, .game-box, .activity-block, .qp-card, .qp-q-box, .vocab-card, .poem-stanza, .game-q-card, .match-item, .option-btn {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.poem-stanza { flex-wrap: wrap; align-items: flex-start; }
+.poem-text {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.vocab-word, .vocab-row, .activity-desc, .activity-heading, .section-title, .logo-title,
+.game-header, .game-q-card, .option-btn, .match-item, .qp-q-box, .qp-section-title,
+.model-answer-box, .qtext, .quiz-opt {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+.vocab-word { flex-wrap: wrap; gap: 8px; }
+
 </style>
 </head>
 <body>
